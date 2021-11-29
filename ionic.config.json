@@ -1,0 +1,8 @@
+{
+  "name": "GoKidsGo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "b17e4fc0"
+}
