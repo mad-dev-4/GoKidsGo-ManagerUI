@@ -1,0 +1,93 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><img src="/resources/icon.png" /></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <h1>{{ 'CATEGORY_TITLE' | translate }}</h1>
+
+    <ion-card>
+      <ion-card-content>
+        <ion-button color="primary" type="button" (click)="addTopCategory()">{{ 'BUTTON_ADD_TOPCATEGORY' | translate }}</ion-button>
+        <ion-button color="primary" type="button" (click)="addSubCategory()" [disabled]="category == null || category.description == null">{{ 'BUTTON_ADD_SUBCATEGORY' | translate }}</ion-button>
+        <ion-button color="danger" type="button" (click)="deleteCategory()" [disabled]="category == null || category.description == null">{{ 'BUTTON_DELETE_CATEGORY' | translate }}</ion-button>
+        <ion-button color="secondary" type="button" (click)="gotoVenueList()" [disabled]="category == null || category.description == null">{{ 'BUTTON_VIEW_VENUES' | translate }}</ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+
+          <!-- Begin: Create a category tree card -->
+          <ion-card>
+            <ion-card-content>
+        
+              <app-category-tree 
+                [categories]="categories"
+                [categoryEditor]="category"
+                (buttonTopCategoryExpandClickEvent)="editTopCategory($event)"
+                (buttonCategoryClickEvent)="editCategory($event)">
+              </app-category-tree>
+
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <!-- Begin: Edit category card -->
+        <ion-col>
+          <ion-card *ngIf="category != null && category.description != null">
+            <ion-card-header>
+              <ion-card-title>{{ 'CATEGORY_DETAILS_SECTION' | translate }}</ion-card-title>
+            </ion-card-header>
+
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_PARENT_CAT' | translate }}</ion-label>
+              <ion-input type="text" disabled="true" [(ngModel)]="category.parentIdentifier"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_ID' | translate }}</ion-label>
+              <ion-input type="text" disabled="true" [(ngModel)]="category.id"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_IDENTIFIER' | translate }}</ion-label>
+              <ion-input type="text" placeholder="{{ 'FIELD_IDENTIFIER_PLACEHOLDER' | translate }}" autocorrect="false"
+                clearInput="true" (change)="dataChanged()" [(ngModel)]="category.identifier"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_NAME' | translate }}</ion-label>
+              <ion-input type="text" placeholder="{{ 'FIELD_NAME_PLACEHOLDER' | translate }}" autocorrect="false"
+                clearInput="true" (change)="dataChanged()" [(ngModel)]="category.description[0].name"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_DESCRIPTION' | translate }}</ion-label>
+              <ion-input type="text" placeholder="{{ 'FIELD_DESCRIPTION_PLACEHOLDER' | translate }}" autocorrect="false"
+                clearInput="true" (change)="dataChanged()" [(ngModel)]="category.description[0].description"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_SEQUENCE' | translate }}</ion-label>
+              <ion-input type="number"autocorrect="false"
+                (change)="dataChanged()" [(ngModel)]="category.sequence"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label>{{ 'FIELD_HIDDEN' | translate }}</ion-label>
+              <ion-checkbox slot="start" (click)="dataChanged()" [(ngModel)]="category.hidden"></ion-checkbox>
+            </ion-item>
+            <br />
+            <ion-button color="primary" expand="block" type="button" (click)="saveCategory()"
+              [disabled]="!isReadyToSave">{{ 'BUTTON_SAVE' | translate }}</ion-button>
+            <ion-button color="primary" expand="block" type="button" (click)="cancelChanges()"
+              *ngIf="category.new">{{ 'BUTTON_CANCEL' | translate }}</ion-button>
+          </ion-card>
+
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+  
+  </div>
+</ion-content>

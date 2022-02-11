@@ -1,0 +1,20 @@
+:host {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+ 
+    h1 {
+      padding-bottom:20px
+    }
+ 
+    ion-content {
+      --padding-start: 6px;
+    }
+ 
+    ion-title {
+      padding-inline: 0px;
+      img {
+          padding-top:4px; 
+      }
+    }
+ 
+
+}

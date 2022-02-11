@@ -1,0 +1,44 @@
+:host {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+ 
+    h1 {
+      padding-left:21px
+    }
+ 
+    ion-title {
+      padding-inline: 0px;
+      img {
+          padding-top:4px; 
+      }
+    }
+ 
+    .info > ion-note, .info ion-label {
+      padding:0;
+    }
+    .info {
+      padding:0 !important;
+    }
+
+    .venueLeftColumn{
+      max-width:540px;
+    }
+    
+    span.imageTinyArea {
+      width:130px;
+      max-width:130px;
+      padding:0;
+      margin-right:10px;
+      margin-bottom:10px;
+      text-align: left;
+      display:inline-block;
+
+      img.imageTiny {
+        width:130px;
+        max-width:130px;
+      }
+    }
+    .imageButton {
+      width:130px;
+      display:block;
+    }
+}

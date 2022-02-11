@@ -1,0 +1,304 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><img src="/resources/icon.png" /></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <h1>{{ 'VENUE_DETAILS_PAGE_TITLE' | translate }}</h1>
+
+    <ion-grid *ngIf="venue != null">
+      <ion-row>
+        <ion-col class="venueLeftColumn">
+
+          <venue-card-comp [venue]="venue"></venue-card-comp>      
+   
+          <!-- Begin: Amenities card -->
+          <ion-card *ngIf="venueId != '0'">
+            <ion-card-header>
+              <ion-card-title><ion-icon name="cafe-outline"></ion-icon> {{ 'VENUE_AMENITIES' | translate }}</ion-card-title>
+              <ion-card-subtitle>{{ 'VENUE_AMENITIES_EXPLAINED' | translate }}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <span *ngIf="venue.amenities != null">
+                <ion-chip outline="false" *ngFor="let a of venue.amenities">
+                  <ion-icon color="primary" name="{{a.icon}}"></ion-icon>
+                  <ion-label>{{a.description[0].name}}</ion-label>
+                  <ion-icon name="close-circle" (click)="removeAmenityFromVenue(a.id)"></ion-icon>
+                </ion-chip>
+              </span>
+              <div>
+                <ion-button color="none" type="button" (click)="presentAmenitiesSearchModal($event)">
+                  <ion-icon name="add-circle-sharp"></ion-icon>
+                  &nbsp;{{ 'VENUE_ADD_AMENITIES' | translate }}
+                </ion-button>
+
+                <ion-button slot="end" color="none" type="button" (click)="presentAmenitiesCreateModal($event)">
+                  <ion-icon name="add-circle-sharp"></ion-icon>
+                  &nbsp;{{ 'VENUE_ADD_NEW_AMENITIES' | translate }}
+                </ion-button>
+              </div>
+              
+            </ion-card-content>
+            <ion-card-content *ngIf="venue.tags == null">
+              {{ 'VENUE_AMENITIES_NOT_FOUND' | translate }}
+            </ion-card-content>
+          </ion-card>
+          <!-- End: Amenities card -->
+        
+          
+          <!-- Begin: Tags card --> 
+          <ion-card *ngIf="venueId != '0'">
+            <ion-card-header>
+              <ion-card-title><ion-icon ios="pricetags-outline" md="pricetags-sharp"></ion-icon> {{ 'VENUE_TAGS' | translate }}</ion-card-title>
+              <ion-card-subtitle>{{ 'VENUE_TAGS_EXPLAINED' | translate }}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <span *ngIf="venue.tags != null">
+              <ion-chip outline="true" *ngFor="let tag of venue.tags">
+                <ion-label>{{tag.name}}</ion-label>
+                <ion-icon name="close-circle" (click)="removeTagFromVenue(tag.id)"></ion-icon>
+              </ion-chip>
+            </span>
+            <div>
+                <ion-button color="none" type="button" (click)="presentTagSearchModal($event)">
+                  <ion-icon name="add-circle-sharp"></ion-icon>
+                  &nbsp;{{ 'VENUE_ADD_TAGS' | translate }}
+                </ion-button>
+
+                <ion-button slot="end" color="none" type="button" (click)="presentTagCreateModal($event)">
+                  <ion-icon name="add-circle-sharp"></ion-icon>
+                  &nbsp;{{ 'TAG_ADD_NEW_TAG' | translate }}
+                </ion-button>
+              </div>
+            </ion-card-content>
+            <ion-card-content *ngIf="venue.tags == null">
+              {{ 'VENUE_TAGS_NOT_FOUND' | translate }}
+            </ion-card-content>
+          </ion-card>
+        <!-- End: Tags card -->
+
+        <!-- Begin: Seasonal tag card --> 
+        <ion-card *ngIf="venueId != '0'">
+          <ion-card-header>
+            <ion-card-title><ion-icon ios="sunny-outline" md="sunny-sharp"></ion-icon> {{ 'VENUE_SEASONAL_TAGS' | translate }}</ion-card-title>
+            <ion-card-subtitle>{{ 'VENUE_SEASONAL_TAGS_EXPLAINED' | translate }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <span *ngIf="venue.seasonalTags != null">
+            <ion-chip outline="true" *ngFor="let tag of venue.seasonalTags">
+              <ion-label>{{tag.name}}</ion-label>
+              <ion-icon name="close-circle" (click)="removeTagFromVenue(tag.id, 'SEASONAL')"></ion-icon>
+            </ion-chip>
+          </span>
+          <div>
+              <ion-button color="none" type="button" (click)="presentSeasonalTagSearchModal($event)">
+                <ion-icon name="add-circle-sharp"></ion-icon>
+                &nbsp;{{ 'VENUE_ADD_SEASONAL_TAGS' | translate }}
+              </ion-button>
+            </div>
+          </ion-card-content>
+          <ion-card-content *ngIf="venue.seasonalTags == null">
+            {{ 'VENUE_SEASONAL_TAGS_NOT_FOUND' | translate }}
+          </ion-card-content>
+        </ion-card>
+      <!-- End:  Seasonal tag card -->
+
+        <!-- Begin: Category card -->
+        <ion-card *ngIf="venueId != '0'">
+          <ion-card-header>
+            <ion-card-title><ion-icon ios="duplicate-outline" md="duplicate-sharp"></ion-icon> {{ 'VENUE_CATEGORIES' | translate }}</ion-card-title>
+            <ion-card-subtitle>{{ 'VENUE_CATEGORIES_EXPLAINED' | translate }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content *ngIf="categories != null">
+            <ion-chip outline="true" *ngFor="let cat of categories">
+              <ion-label>{{cat.fromCategory.description[0].name}}</ion-label>
+              <ion-icon name="close-circle" (click)="removeCategoryFromVenue(cat.fromCategory.id)"></ion-icon>
+            </ion-chip>
+            <div>
+              <ion-button color="none" type="button" (click)="presentFindCategoryModal($event)">
+                <ion-icon name="add-circle-sharp"></ion-icon>
+                &nbsp;{{ 'VENUE_CATEGORY' | translate }}
+              </ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+        <!-- End: Category card -->
+        
+        <!-- Begin: Workflow card --> 
+        <ion-card *ngIf="venueId != '0'">
+          <ion-card-header>
+            <ion-card-title><ion-icon name="hammer-outline"></ion-icon> {{ 'VENUE_OPEN_WORKFLOWS' | translate }}</ion-card-title>
+            <ion-card-subtitle>{{ 'VENUE_OPEN_WORKFLOWS_EXPLAINED' | translate }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content *ngIf="workflows != null">
+            <ion-list lines="full">
+              <ion-item class="header">
+                <ion-label class="col">{{ 'FIELD_NAME' | translate }}</ion-label>
+                <ion-label class="col">{{ 'FIELD_CREATED' | translate }}</ion-label>
+              </ion-item>
+          
+              <ion-item *ngFor="let work of workflows" [routerLink]="['/workflow/'+work.id]">
+                <ion-label class="ion-text-wrap">
+                  <ion-label class="ion-text-wrap">{{work.name}}</ion-label>
+                </ion-label>
+                <ion-label class="ion-text-wrap">
+                  <ion-label class="ion-text-wrap">{{work.createdDate | formatDateTime}}</ion-label>
+                  <ion-icon name="open-outline"></ion-icon>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+            <div *ngIf="workflows.length == 0">
+              {{ 'VENUE_WORKFLOW_NOT_FOUND' | translate }}
+            </div>
+            <div>
+              <ion-button color="none" type="button" (click)="presentNewWorkflowModal($event)">
+                <ion-icon name="add-circle-sharp"></ion-icon>
+                &nbsp;{{ 'BUTTOM_ADD_WORKFLOW' | translate }}
+              </ion-button>
+            </div>
+          </ion-card-content>          
+        </ion-card>
+        <!-- End: Workflow card -->
+
+
+        <!-- Begin: Schedule card --> 
+        <ion-card *ngIf="venueId != '0'">
+          <ion-card-header>
+            <ion-card-title><ion-icon name="time-outline"></ion-icon> {{ 'VENUE_SCHEDULES' | translate }}</ion-card-title>
+            <ion-card-subtitle>{{ 'VENUE_SCHEDULES_EXPLAINED' | translate }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content *ngIf="scheduleGroups != null">
+            <ion-list lines="full">
+              <ion-item class="header">
+                <ion-label class="col">{{ 'FIELD_NAME' | translate }}</ion-label>
+                <ion-label class="col">{{ 'FIELD_SCHED_GROUP_TYPE' | translate }}</ion-label>
+                <ion-label class="col">{{ 'FIELD_SCHED_DATES' | translate }}</ion-label>
+              </ion-item>
+          
+              <ion-item *ngFor="let sched of scheduleGroups">
+                <ion-label class="col">
+                  <ion-label>{{sched.name}}</ion-label>
+                </ion-label>
+                <ion-label class="col">
+                  <ion-label>{{sched.groupType}}</ion-label>
+                </ion-label>
+                <ion-label class="col">
+                  <ion-label>{{sched.startDate | formatDateTime}}</ion-label>
+                  <ion-label>{{sched.endDate | formatDateTime}}</ion-label>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+          <ion-card-content *ngIf="scheduleGroups.length == 0">
+            {{ 'VENUE_SCHEDULES_NOT_FOUND' | translate }}
+          </ion-card-content>
+          
+        </ion-card>
+        <!-- End: Schedule card -->
+
+      </ion-col>
+      
+
+
+      <!-- Draw the deatails-->    
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title><ion-icon ios="home-outline" md="home-sharp"></ion-icon> {{ 'VENUE_DETAILS_SECTION' | translate }}</ion-card-title>
+            </ion-card-header>
+            
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_ID' | translate }}</ion-label>
+              <ion-input type="text" disabled="true" [(ngModel)]="venue.id"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_CREATED_DATE' | translate }}</ion-label>
+              <ion-input type="text" disabled="true" value="{{venue.createdDate | formatDateTime}}"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_UPDATED_DATE' | translate }}</ion-label>
+              <ion-input type="text" disabled="true" value="{{venue.updatedDate | formatDateTime}}"></ion-input>
+            </ion-item>
+
+
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_IDENTIFIER' | translate }}</ion-label>
+              <ion-input type="text" placeholder="{{ 'FIELD_IDENTIFIER_PLACEHOLDER' | translate }}" autocorrect="false" clearInput="true" (change)="dataChanged()" [(ngModel)]="venue.identifier" maxlength="250"></ion-input>
+            </ion-item> 
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_TITLE' | translate }}</ion-label>
+              <ion-input type="text" placeholder="{{ 'FIELD_TITLE_PLACEHOLDER' | translate }}" autocorrect="false" clearInput="true" (change)="dataChanged()" [(ngModel)]="venue.description[0].title" maxlength="250"></ion-input>
+            </ion-item> 
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_SUBTITLE' | translate }}</ion-label>
+              <ion-input type="text" placeholder="{{ 'FIELD_SUBTITLE_PLACEHOLDER' | translate }}" autocorrect="false" clearInput="true" (change)="dataChanged()" [(ngModel)]="venue.description[0].name" maxlength="250"></ion-input>
+            </ion-item> 
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_WEBSITE_URL' | translate }}</ion-label>
+              <ion-input type="url" placeholder="{{ 'FIELD_WEBSITE_PLACEHOLDER' | translate }}" autocorrect="false" clearInput="true"  (change)="dataChanged()" [(ngModel)]="venue.description[0].webSiteURL" maxlength="250"></ion-input>
+            </ion-item> 
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_DESCRIPTION' | translate }}</ion-label>
+              <ion-textarea type="text" placeholder="{{ 'FIELD_DESCRIPTION_PLACEHOLDER' | translate }}" autocorrect="false" clearInput="true" (change)="dataChanged()" [(ngModel)]="venue.description[0].description" maxlength="2000"></ion-textarea>
+            </ion-item> 
+
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-item lines="none">
+                    <ion-label>{{ 'FIELD_ACTIVATED_APPROVED' | translate }}</ion-label>
+                    <ion-checkbox slot="start" disabled="true" [(ngModel)]="venue.active"></ion-checkbox>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item lines="none">
+                    <ion-label>{{ 'FIELD_HIDDEN' | translate }}</ion-label>
+                    <ion-checkbox slot="start" (click)="dataChanged()" [(ngModel)]="venue.hidden"></ion-checkbox>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+
+            <ion-item>
+              <ion-label position="stacked">{{ 'FIELD_LOCATION_WITH_IDENTIFIER' | translate }}</ion-label>
+              <br />
+              <p *ngIf="venue.location != null">
+              {{venue.location.identifier}} <ion-icon class="link" (click)="gotoLocation()" name="open-outline"></ion-icon><br/>
+              {{venue.location.address1}}<br/>
+              {{venue.location.city}}, {{venue.location.province}}<br />
+              {{venue.location.country}}<br />
+              {{venue.location.postalCode}}
+              </p>
+              <p *ngIf="venue.location == null">
+                {{ 'VENUE_NO_LOCATION_SELECTED' | translate }}
+              </p>
+              <ion-button color="secondary" type="button" (click)="presentLocationSearchModal($event)">
+                {{ 'BUTTON_LOCATION_CHANGE' | translate }}</ion-button>
+                <input class="ion-hide" type="input" id="location-input" [(ngModel)]="venue.locationId" />  
+            </ion-item> 
+
+            <br />
+            <ion-button color="primary" expand="block" type="button" (click)="saveVenue()" [disabled]="!isReadyToSave">{{ 'BUTTON_SAVE' | translate }}</ion-button>
+            
+          </ion-card>
+
+          <app-image-gallery 
+            *ngIf="venue" 
+            [venueId]="venueId" 
+            [enableEditButton]="false"
+            [images]="venue.images"
+            [enableImageManagementButton]="true">
+          </app-image-gallery>
+          
+        </ion-col>  
+
+      </ion-row>
+    </ion-grid>
+
+  </div>
+</ion-content>

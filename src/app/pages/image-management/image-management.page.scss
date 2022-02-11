@@ -1,0 +1,42 @@
+:host {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    h1 {
+      padding-left:21px
+    }
+    h2 {
+      padding-left:15px
+    }
+    
+    .imageButton {
+      width:130px;
+      display:block;
+    }
+
+    /* The box immiediatly surrounding the image */
+    .editing-area {
+      max-width:100%;
+      border:2px dotted black;
+      height:450px;
+      max-height:550px;
+      overflow-x: scroll;
+      overflow-y: scroll;
+      display:block;
+    }
+
+
+    /* Set image to natural size by default */
+    .editing-image {
+      //width:100%;
+      max-width:unset;
+      //height:auto;
+    }
+
+    .overlayCropArea {
+      width:640px;
+      height:320px;
+      border:2px dotted red;
+      position:absolute;
+      z-index:10;
+      background-color:rgba(0, 0, 0, 0.5);
+    }
+}

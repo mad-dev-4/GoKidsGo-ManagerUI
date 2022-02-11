@@ -1,0 +1,112 @@
+<app-header 
+  [primaryButtonIcon]="'add-outline'" 
+  [primaryButtonText]="'BUTTON_ADD_VENUE'"
+  (primaryButtonEvent)="createNewVenue($event)">
+</app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><img src="/resources/icon.png" /></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <h1>{{ 'VENUE_SEARCH_TITLE' | translate }}</h1>
+
+    <form [formGroup]="searchVenueForm" (ngSubmit)="searchVenue(searchVenueForm.value)">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6"> 
+          <ion-item>
+            <ion-label position="stacked" autocorrect="false" clearInput="true">{{ 'FIELD_VENUE_ID' | translate }}</ion-label>
+            <ion-input type="text" formControlName="VenueId" [(ngModel)]="venue.VenueId" #input maxlength="75"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="stacked" autocorrect="false" clearInput="true">{{ 'FIELD_LOCATION_ID' | translate }}</ion-label>
+            <ion-input type="text" formControlName="LocationId" [(ngModel)]="venue.LocationId" #input maxlength="50"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6"> 
+          <ion-item>
+            <ion-label position="stacked" autocorrect="false" clearInput="true">{{ 'FIELD_VENUE_NAME' | translate }}</ion-label>
+            <ion-input type="text" formControlName="Name" [(ngModel)]="venue.Name" #input maxlength="50"></ion-input>
+          </ion-item>
+         </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">  
+          <ion-item>
+            <ion-label position="stacked" autocorrect="false" clearInput="true">{{ 'FIELD_VENUE_TITLE' | translate }}</ion-label>
+            <ion-input type="text" formControlName="Title" [(ngModel)]="venue.Title" #input maxlength="250"></ion-input>
+          </ion-item>  
+        </ion-col>
+        <ion-col size="6"> 
+          <ion-item>
+            <ion-label position="stacked" autocorrect="false" clearInput="true">{{ 'FIELD_VENUE_DESCRIPTION' | translate }}</ion-label>
+            <ion-input type="text" formControlName="Description" [(ngModel)]="venue.Description" #input maxlength="250"></ion-input>
+          </ion-item>   
+        </ion-col>
+      </ion-row>
+      
+      <ion-row>
+        <ion-col>
+            <ion-item>
+              <ion-label position="stacked">{{ 'FIELD_ACTIVE' | translate }}</ion-label>
+              <ion-select [(ngModel)]="venue.Active" formControlName="Active" interface="popover">
+                <ion-select-option value="true">{{ 'FIELD_ACTIVE' | translate }}</ion-select-option>
+                <ion-select-option value="false">{{ 'FIELD_INACTIVE' | translate }}</ion-select-option>
+                <ion-select-option value="">{{ 'FIELD_BOTH' | translate }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+        </ion-col>
+        <ion-col>
+            <ion-item>
+              <ion-label position="stacked">{{ 'FIELD_HIDDEN' | translate }}</ion-label>
+              <ion-select [(ngModel)]="venue.Hidden" formControlName="Hidden" interface="popover">
+                <ion-select-option value="true">{{ 'FIELD_HIDDEN' | translate }}</ion-select-option>
+                <ion-select-option value="false">{{ 'FIELD_VISIBLE' | translate }}</ion-select-option>
+                <ion-select-option value="">{{ 'FIELD_BOTH' | translate }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+        </ion-col>
+        
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">{{ 'RESULTS_PER_PAGE' | translate }}</ion-label>
+            <ion-select [(ngModel)]="venue.ResultsPerPage" formControlName="ResultsPerPage" interface="popover">
+              <ion-select-option value="10">10</ion-select-option>
+              <ion-select-option value="50">50</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">{{ 'VENUE_TAGS' | translate }}</ion-label>
+            <ion-select multiple="true" cancelText="{{ 'BUTTON_CANCEL' | translate }}" okText="{{ 'BUTTON_OK' | translate }}" [(ngModel)]="venue.Tags" formControlName="Tags">
+                <ion-select-option *ngFor="let tag of tags" [value]="tag.name">{{tag.name}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col> 
+          <ion-button color="primary" type="submit">{{ 'BUTTON_SEARCH' | translate }}</ion-button>
+        </ion-col>
+      </ion-row>
+
+
+    </ion-grid>
+
+  </form>
+  </div>
+</ion-content>

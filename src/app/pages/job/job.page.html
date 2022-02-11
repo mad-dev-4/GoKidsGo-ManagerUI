@@ -1,0 +1,72 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><img src="/resources/icon.png" /></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <h1>{{ 'JOB_DETAILS_PAGE_TITLE' | translate }}</h1>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-card>
+
+            <ion-item>
+              <ion-label position="stacked">{{ 'JOB_DETAILS_SELECT' | translate }}</ion-label>
+              <ion-select (ionChange)="jobSelectionChange($event)" interface="popover">
+                <ion-select-option  *ngFor="let job of jobList" [value]="job.id">
+                  {{job.name}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item lines="none">
+              <ion-text>{{selectedJob.description}}</ion-text>
+            </ion-item>
+            <ion-item >
+              <ion-label position="stacked">{{ 'JOB_PARAMETERS' | translate }}</ion-label>
+              <ion-input type="text" autocorrect="false" placeholder="{{ 'JOB_PARAMETERS_PLACEHOLDER' | translate }}"
+                clearInput="true"  [(ngModel)]="selectedJob.jobParameters" maxlength="1000">
+              </ion-input>
+            </ion-item>
+            <br />
+          </ion-card>
+
+          <ion-card>
+            
+
+            <ion-item lines="none">
+              <ion-text>{{ 'JOB_SCHEDULE' | translate }}</ion-text>
+            </ion-item>
+
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label>{{ 'JOB_NEXT_RUN_DATE' | translate }}</ion-label>
+                    <ion-toggle [(ngModel)]="specificStartTime"></ion-toggle>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item *ngIf="specificStartTime">
+                    <ion-datetime hour-cycle="h12" locale="en-US" [(ngModel)]="selectedJob.nextRun"></ion-datetime>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+            <br />
+            <ion-button color="primary" expand="block" type="button" (click)="createJob()"
+              [disabled]="selectedJob.identifier == null">{{ 'BUTTON_RUN_JOB' | translate }}</ion-button>
+
+
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+</ion-content>

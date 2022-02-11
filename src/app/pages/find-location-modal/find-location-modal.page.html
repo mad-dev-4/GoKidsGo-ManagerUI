@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'LOCATION_FIND_TITLE' | translate }}</ion-title>
+    <ion-buttons slot="primary" class="closeIconHeader">
+      <ion-icon name="close-outline" (click)="closeModal()"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-item lines="none">
+      <ion-input type="text" autocorrect="false" clearInput="true" (keyup)="onSearchType($event)" (keyup.enter)="searchForLocation()" placeholder="{{ 'LOCATION_FIND_INPUT' | translate }}" maxlength="250"></ion-input>
+      <ion-button color="primary" (click)="searchForLocation()">{{ 'LOCATION_FIND_BTN_SEARCH' | translate }}
+      </ion-button>
+    </ion-item> 
+
+    <ion-list lines="full">
+      <ion-item class="header">
+        <ion-label class="col">{{ 'FIELD_IDENTIFIER' | translate }}</ion-label>
+        <ion-label class="col">{{ 'FIELD_NAME' | translate }}</ion-label>
+        <ion-label class="col-sm">{{ 'FIELD_ADDRESS' | translate }}</ion-label>
+      </ion-item>
+      <ion-item *ngFor="let loc of locations">
+        <ion-label class="col">{{loc.identifier}}<br />
+          <ion-button size="small" (click)="selectLocation(loc.id)">{{ 'BUTTON_SELECT' | translate }}</ion-button>
+        </ion-label>
+        <ion-label class="col"><p *ngIf="loc?.description">{{loc.description[0]?.name}}<p></ion-label>
+          <ion-label class="col-sm">
+            {{loc.identifier}}<br/>
+            {{loc.address1}}<br/>
+            {{loc.city}}, {{loc.province}}<br />
+            {{loc.country}}<br />
+            {{loc.postalCode}}
+          </ion-label>
+      </ion-item>
+      <ion-item *ngIf="locations != null" lines="none">
+        <ion-label class="col">{{totalResults}} {{ 'RESULTS_FOUND' | translate }}</ion-label>
+      </ion-item>
+      <ion-item *ngIf="!locations?.length">
+        <ion-label class="col">{{ 'RESULTS_NOT_FOUND' | translate }}</ion-label>
+      </ion-item>
+    </ion-list>
+
+</ion-content>

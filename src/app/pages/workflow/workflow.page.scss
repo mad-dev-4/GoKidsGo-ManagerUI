@@ -1,0 +1,18 @@
+:host {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    h1 {
+      padding-left:21px
+    }
+    ion-title {
+      padding-inline: 0px;
+      img {
+          padding-top:4px; 
+      }
+    }
+    ion-toolbar {
+        --background: var(--ion-toolbar-background, var(--ion-background-color, #000));
+        --border-color: var(--ion-toolbar-border-color, var(--ion-border-color, var(--ion-color-step-150, #fff)));
+       /* height:150px;*/
+        color:white;
+    }
+}

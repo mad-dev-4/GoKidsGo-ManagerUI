@@ -1,0 +1,29 @@
+<ul *ngIf="isGroupExpanded(input.category.id) && input.category.childrenRel != null && input.category.childrenRel.length > 0" class="treeNav">
+
+  <li *ngFor="let i1 of input.category.childrenRel">
+    <ion-icon name="chevron-forward-outline" [class]="isGroupExpanded(i1.category.id) ? 'expanding' : 'none'"
+      slot="start" (click)="expandGroup(i1.category.id, i1.category)"></ion-icon>
+
+    <ion-label [class]="i1.category.id == categoryEditor.id ? 'treeTextSelected' : 'treeText'"
+      (click)="categoryClick(i1, input.category)">
+      <span *ngIf="i1.category.new == true">* </span>{{i1.category.description[0].name}}
+    </ion-label>
+    <span *ngIf="input.category.hidden == true">{{ 'CATEGORY_HIDDEN' | translate }}</span>
+
+    <span *ngIf="isGroupExpanded(i1.category.id)">
+      <app-category-level [input]="i1" [expandedCategories]="expandedCategories" [categoryEditor]="categoryEditor"
+        (buttonCategoryClickEvent)="categoryClickInception($event)"></app-category-level>
+    </span>
+
+  </li>
+</ul>
+
+<span *ngIf="isGroupExpanded(input.category.id)">
+  <ul *ngIf="input.category == null || input.category.childrenRel == null || input.category.childrenRel.length == 0" class="treeNav">
+    <li>
+      <ion-label class="treeNoResultsText">
+        {{ 'CATEGORY_NO_SUB' | translate }}
+      </ion-label>
+    </li>
+  </ul>
+</span>

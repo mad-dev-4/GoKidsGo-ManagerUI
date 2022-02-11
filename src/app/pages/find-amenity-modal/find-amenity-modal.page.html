@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-item lines="none">
+      <ion-searchbar showCancelButton="never" animated debounce="250"  
+        placeholder="{{ 'AMENITY_FIND_FILTER' | translate }}"
+        cancelButtonText="{{ 'BUTTON_CANCEL' | translate }}"
+        [(ngModel)]="searchFilter"
+        (ionChange)="searchTextChange($event)">
+      </ion-searchbar>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list lines="full">
+    <ion-item class="header">
+      <ion-label class="col">
+          <ion-button color="primary" expand="full" [disabled]="numberOfSelections <= 0" (click)="closeAndKeepSelections()">{{ 'AMENITY_FIND_CLOSE_SAVE' | translate }} {{numberOfSelections}}</ion-button>
+      </ion-label>
+      <ion-label class="col">
+        <ion-button color="primary" expand="full" (click)="closeModal()">{{ 'BUTTON_CANCEL' | translate }}</ion-button>
+    </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list lines="full">
+    <ion-item *ngFor="let amenity of elements">
+      <ion-label class="col">
+        <ion-checkbox color="secondary" (click)="selectElement(amenity, $event)"></ion-checkbox>
+      </ion-label>
+      <ion-label class="col">
+        <ion-icon color="primary" name="{{amenity.icon}}"></ion-icon>
+      </ion-label>
+      <ion-label class="col">  
+        <ion-label class="col">{{amenity.description[0].name}}</ion-label>
+      </ion-label>
+    </ion-item>
+    <ion-item *ngIf="elements != null" lines="none">
+      <ion-label class="col">{{dataResultCount}} {{ 'RESULTS_FOUND' | translate }}</ion-label>
+    </ion-item>
+    <ion-item *ngIf="!elements?.length">
+      <ion-label class="col">{{ 'RESULTS_NOT_FOUND' | translate }}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="tableCommon">
+    <ion-item class="tableFooter">
+      <ion-label class="col">
+          <ion-button disabled="{{pageNumber<=1}}" (click)="previousPage()">{{ 'BUTTON_PREVIOUS' | translate }}</ion-button>&nbsp;
+          <ion-button disabled="{{dataResultCount < (pageNumber*pageSize)}}" (click)="nextPage()">{{ 'BUTTON_NEXT' | translate }}</ion-button></ion-label>
+      <ion-label class="col">{{ 'RESULTS_TOTAL' | translate }} {{dataResultCount | formatNumberPipe}}</ion-label>
+      <ion-label class="col">{{ 'RESULTS_PAGE' | translate }} {{pageNumber}}</ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

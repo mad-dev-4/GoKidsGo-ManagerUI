@@ -1,0 +1,26 @@
+:host {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  h1 {
+    padding-left: 21px;
+  }
+  h2 {
+    padding-left: 15px;
+  }
+
+  .info > ion-note,
+  .info ion-label {
+    padding: 0;
+  }
+  .info {
+    padding: 0 !important;
+  }
+
+  .venueLeftColumn {
+    max-width: 540px;
+  }
+
+  .imageButton {
+    width: 130px;
+    display: block;
+  }
+}

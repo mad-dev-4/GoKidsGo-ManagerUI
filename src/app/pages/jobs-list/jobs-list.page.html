@@ -1,0 +1,106 @@
+<app-header [primaryButtonIcon]="'add-outline'" [primaryButtonText]="'BUTTON_ADD_JOB'"
+  (primaryButtonEvent)="createNewJob($event)" [secondaryButtonIcon]="'refresh-outline'"
+  [secondaryButtonText]="'BUTTON_REFRESH'" (secondaryButtonEvent)="refreshJobs($event)">
+</app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><img src="/resources/icon.png" /></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <h1>{{ 'JOBS_TITLE' | translate }}</h1>
+    <ion-text class="subtitle">{{ 'JOBS_TITLE_DESC' | translate }}</ion-text>
+
+    <ion-card class="systemInfo">
+      <div>
+        System Time: {{schedulerInfo.currentTime | formatDateTime}}
+      </div>
+      <div>
+        Last Reloaded: {{schedulerInfo.lastTimeRefreshed | formatDateTime}}
+      </div>
+      <div>
+        <ion-text>Process Id: {{schedulerInfo.processorId}}</ion-text>
+      </div>
+    </ion-card>
+
+    <ion-list class="tableCommon">
+      <ion-item class="tableHeader" lines="none">
+        <ion-label class="col">{{'FIELD_IDENTIFIER' | translate}}</ion-label>
+        <ion-label class="col">{{'FIELD_NAME' | translate}}</ion-label>
+        <ion-label class="col">{{'FIELD_LAST_RUN' | translate}}</ion-label>
+        <ion-label class="col">{{'FIELD_STATUS' | translate}}</ion-label>
+        <ion-label class="col-icon"></ion-label>
+      </ion-item>
+
+      <ion-accordion-group>
+        <ion-accordion value="{{v.id}}" *ngFor="let v of jobs">
+          <ion-item slot="header">
+            <ion-label class="col">{{v.identifier}}</ion-label>
+            <ion-label class="col">{{v.name}}</ion-label>
+            <ion-label class="col">{{v.lastRun | formatDateTime}}</ion-label>
+            <ion-label class="col" *ngIf="v.lastRunSuccess">{{'JOBS_SUCCESSFUL' | translate}}</ion-label>
+            <ion-label class="col" *ngIf="!v.lastRunSuccess">{{'JOB_FAILED' | translate}}</ion-label>
+          </ion-item>
+          <ion-list slot="content">
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_DESCRIPTION'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v.description}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_CLASSNAME'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v.className}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_RUN_PARAMS'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v.jobParameters}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_MAX_RUNS'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v.maxNumberOfRuns}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_REST_DURATION'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v.restDuration}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_RUN_NUM_HOURS'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v.everyNumOfHours}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_RUN_NUM_MINS'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v.everyNumOfMinutes}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_RUN_TOD'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v.specificTimeOfDay}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_FAILURE_RETRY_SECS'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v.failureRetrySeconds}}</ion-text>
+            </ion-item>
+            <ion-item *ngIf="v.logActivity">
+              <ion-button color="primary" type="button" [routerLink]="['/job-logs-list/'+v.id]">{{ 'BUTTON_VIEW_LOGS' |
+                translate }}</ion-button>
+            </ion-item>
+            <ion-item>
+              <ion-button color="primary" type="button" (click)="runJobNow(v.id)">{{ 'BUTTON_RUN_NOW' | translate }}
+              </ion-button>
+            </ion-item>
+            <ion-item *ngIf="v.maxNumberOfRuns == 1">
+              <ion-button color="danger" type="button" (click)="removeJob(v.id)">{{ 'BUTTON_REMOVE_JOB' | translate }}
+              </ion-button>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+      </ion-accordion-group>
+    </ion-list>
+    <ion-list class="tableCommon">
+      <ion-item class="tableFooter">
+        <ion-label class="col">{{ 'RESULTS_TOTAL' | translate }} {{jobs.length}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

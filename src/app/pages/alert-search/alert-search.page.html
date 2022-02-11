@@ -1,0 +1,111 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><img src="/resources/icon.png" /></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <h1>{{ 'AUDIT_SEARCH_TITLE' | translate }}</h1>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6"> 
+          <ion-item>
+            <ion-label position="stacked" autocorrect="false" clearInput="true">{{ 'FIELD_ID' | translate }}</ion-label>
+            <ion-input type="text" [(ngModel)]="audit.id" #input maxlength="75"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="stacked" autocorrect="false" clearInput="true">{{ 'FIELD_USER_ID' | translate }}</ion-label>
+            <ion-input type="text"  [(ngModel)]="audit.userIdentifier" #input maxlength="50"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6"> 
+          <ion-item>
+            <ion-label position="stacked">{{ 'FIELD_ENTITY_TYPE' | translate }}</ion-label>
+            <ion-select multiple="true" 
+              cancelText="{{ 'BUTTON_CANCEL' | translate }}" 
+              okText="{{ 'BUTTON_OK' | translate }}"[(ngModel)]="audit.entityType">
+                <ion-select-option *ngFor="let e of entityTypes" [value]="e">{{e}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+         </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6"> 
+          <ion-item>
+            <ion-label position="stacked">{{ 'RESULTS_PER_PAGE' | translate }}</ion-label>
+            <ion-select [(ngModel)]="audit.pageSize" interface="popover">
+              <ion-select-option value="10">10</ion-select-option>
+              <ion-select-option value="50">50</ion-select-option>
+              <ion-select-option value="100">100</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6"> 
+        </ion-col>
+      </ion-row>
+      
+      <ion-row>
+        <ion-col size="6">  
+         
+          <ion-button id="open-frommodal">{{ 'FIELD_FROM_DATE' | translate }}</ion-button>
+          <ion-text class="dateTime">{{audit.minUpdatedDate | formatDateTime}}</ion-text>
+          <ion-modal trigger="open-frommodal">
+            <ng-template>
+              <ion-content>
+                <ion-datetime hour-cycle="h12" min="2021-12-01" 
+                  presentation="time-date"
+                  minuteValues="0,15,30,45" 
+                  size="cover" 
+                  [showClearButton]="true"
+                  locale="en-US" [(ngModel)]="audit.minUpdatedDate">
+                  <div slot="title">{{ 'FIELD_FROM_DATE' | translate }}</div>
+                </ion-datetime>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
+      
+        </ion-col>
+        <ion-col size="6"> 
+
+          <ion-button id="open-tomodal">{{ 'FIELD_TO_DATE' | translate }}</ion-button>
+          <ion-text class="dateTime">{{audit.maxUpdatedDate | formatDateTime}}</ion-text>
+          <ion-modal trigger="open-tomodal">
+            <ng-template>
+              <ion-content>
+                <ion-datetime hour-cycle="h12" min="2021-12-01" 
+                  presentation="time-date"
+                  minuteValues="0,15,30,45" 
+                  size="cover" 
+                  [showClearButton]="true"
+                  locale="en-US" [(ngModel)]="audit.maxUpdatedDate">
+                  <div slot="title">{{ 'FIELD_TO_DATE' | translate }}</div>
+                </ion-datetime>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
+
+        </ion-col>
+      </ion-row>
+
+
+      <ion-row>
+        <ion-col> 
+          <ion-button color="primary" type="button" (click)="searchAudit()">{{ 'BUTTON_SEARCH' | translate }}</ion-button>
+        </ion-col>
+      </ion-row>
+
+
+    </ion-grid>
+
+  </div>
+</ion-content>

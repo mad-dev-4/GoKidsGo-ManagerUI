@@ -1,0 +1,20 @@
+<ul class="treeNavRoot">
+  <li *ngFor="let c of categories">
+    <ion-icon name="chevron-forward-outline"
+    [class]="isGroupExpanded(c.category.id) ? 'expanding' : 'none'"
+    slot="start" (click)="expandGroup(c.category.id)"></ion-icon>
+    <ion-label [class]="c.category.id == categoryEditor.id ? 'treeTextSelected' : 'treeText'"
+      (click)="topCategoryClick(c)">
+      <span *ngIf="c.category.new == true">* </span>{{c.category.description[0].name}}
+      <span *ngIf="c.category.hidden == true">{{ 'CATEGORY_HIDDEN' | translate }}</span>
+  </ion-label>
+
+  <app-category-level 
+    [input]="c"  
+    [expandedCategories]="expandedCategoryList"
+    [categoryEditor]="categoryEditor"
+    (buttonCategoryClickEvent)="categoryClick($event)"></app-category-level>
+
+    
+  </li>
+</ul>

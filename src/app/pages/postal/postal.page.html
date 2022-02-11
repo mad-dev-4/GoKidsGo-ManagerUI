@@ -1,0 +1,77 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><img src="/resources/icon.png" /></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <h1>{{ 'POSTAL_DETAILS_PAGE_TITLE' | translate }}</h1>
+
+    <ion-grid *ngIf="postalCode != null">
+      <ion-row>
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>{{ 'POSTAL_DETAILS_SECTION' | translate }}</ion-card-title>
+            </ion-card-header>
+
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_ID' | translate }}</ion-label>
+              <ion-input type="text" disabled="true" [(ngModel)]="postalCode.id"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_POSTAL' | translate }}</ion-label>
+              <ion-input type="text" placeholder="{{ 'FIELD_POSTAL_PLACEHOLDER' | translate }}" autocorrect="false"
+                clearInput="true" (change)="dataChanged()" [(ngModel)]="postalCode.code"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_CITY' | translate }}</ion-label>
+              <ion-input type="text" placeholder="{{ 'FIELD_CITY_PLACEHOLDER' | translate }}" autocorrect="false"
+                clearInput="true" (change)="dataChanged()" [(ngModel)]="postalCode.city"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">{{ 'FIELD_PROVINCE' | translate }}</ion-label>
+              <ion-select [(ngModel)]="postalCode.provinceABBR" interface="popover">
+                <ion-select-option value="AB">{{ 'PROV_AB' | translate }}</ion-select-option>
+                <ion-select-option value="BC">{{ 'PROV_BC' | translate }}</ion-select-option>
+                <ion-select-option value="MB">{{ 'PROV_MB' | translate }}</ion-select-option>
+                <ion-select-option value="NB">{{ 'PROV_NB' | translate }}</ion-select-option>
+                <ion-select-option value="NL">{{ 'PROV_NL' | translate }}</ion-select-option>
+                <ion-select-option value="NT">{{ 'PROV_NT' | translate }}</ion-select-option>
+                <ion-select-option value="NS">{{ 'PROV_NS' | translate }}</ion-select-option>
+                <ion-select-option value="NU">{{ 'PROV_NU' | translate }}</ion-select-option>
+                <ion-select-option value="ON">{{ 'PROV_ON' | translate }}</ion-select-option>
+                <ion-select-option value="PE">{{ 'PROV_PE' | translate }}</ion-select-option>
+                <ion-select-option value="QC">{{ 'PROV_QC' | translate }}</ion-select-option>
+                <ion-select-option value="SK">{{ 'PROV_SK' | translate }}</ion-select-option>
+                <ion-select-option value="YU">{{ 'PROV_YT' | translate }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_LATITUDE' | translate }}</ion-label>
+              <ion-input type="text" placeholder="{{ 'FIELD_LATITUDE_PLACEHOLDER' | translate }}" autocorrect="false"
+                clearInput="true" (change)="dataChanged()" [(ngModel)]="postalCode.latitude" maxlength="30"></ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_LONGITUDE' | translate }}</ion-label>
+              <ion-input type="text" placeholder="{{ 'FIELD_LONGITUDE_PLACEHOLDER' | translate }}" autocorrect="false"
+                clearInput="true" (change)="dataChanged()" [(ngModel)]="postalCode.longitude" maxlength="30">
+              </ion-input>
+            </ion-item>
+
+            <br />
+            <ion-button color="primary" expand="block" type="button" (click)="savePostalDetails()"
+              [disabled]="!isReadyToSave">{{ 'BUTTON_SAVE' | translate }}</ion-button>
+
+
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+</ion-content>

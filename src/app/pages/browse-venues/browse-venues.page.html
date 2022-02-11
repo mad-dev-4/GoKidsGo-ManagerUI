@@ -1,0 +1,115 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><img src="/resources/icon.png" /></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <h1>{{ 'BROWSE_VENUES_TITLE' | translate }}</h1>
+
+    <ion-chip outline="false" class="activeCatFilter" *ngIf="category != null && category.description != null">
+      <ion-icon ios="duplicate-outline" md="duplicate-sharp"></ion-icon>
+      <ion-label>Category: {{category.description[0].name}}</ion-label>
+      <ion-icon name="close-circle" (click)="clearCategory()"></ion-icon>
+    </ion-chip>
+
+    <ion-chip outline="false" class="activeCatFilter" *ngIf="venue.postalCode != null">
+      <ion-icon ios="barcode-outline" md="barcode-sharp"></ion-icon>
+      <ion-label>Code: {{venue.postalCode}}, {{venue.distance}}km</ion-label>
+      <ion-icon name="close-circle" (click)="clearPostalCode()"></ion-icon>
+    </ion-chip>
+
+    <ion-grid>
+
+      <ion-row>
+        <ion-col>
+          <div class="filters">
+            <h2>{{ 'BROWSE_VENUES_FILTERS' | translate }}</h2>
+
+            <ion-card>
+              <ion-card-content>
+                <ion-text class="filterCategory" color="primary">{{ 'BROWSE_VENUES_CATEGROIES' | translate }}</ion-text>
+                <app-category-tree class="catfilterTree" [categories]="categories" [categoryEditor]="category"
+                  (buttonTopCategoryExpandClickEvent)="categoryClicked($event)"
+                  (buttonCategoryClickEvent)="categoryClicked($event)">
+                </app-category-tree>
+              </ion-card-content>
+            </ion-card>
+
+            <ion-card>
+              <ion-card-content>
+                <ion-text class="filterCategory" color="primary">{{ 'BROWSE_FILTER_POSTAL' | translate }}</ion-text>
+                <ion-segment (ionChange)="postalFilterSegmentChanged($event)" color="primary" value="">
+                  <ion-segment-button value="">
+                    <ion-label>{{'FIELD_NONE_TEXT' | translate}}</ion-label>
+                  </ion-segment-button>
+                  <ion-segment-button value="p">
+                    <ion-label>{{'FIELD_POSTAL' | translate}}</ion-label>
+                  </ion-segment-button>
+                  <ion-segment-button value="l">
+                    <ion-label>{{'BROWSE_LATLONG' | translate}}</ion-label>
+                  </ion-segment-button>
+                </ion-segment>
+
+                <ion-item lines="none" *ngIf="postalSegmentValue == 'p'">
+                  <ion-label position="stacked">{{ 'FIELD_POSTAL' | translate }}</ion-label>
+                  <ion-input type="text" placeholder="{{ 'FIELD_POSTAL_PLACEHOLDER' | translate }}" autocorrect="false"
+                    clearInput="true" [(ngModel)]="postalCode" maxlength="7"></ion-input>
+                  
+                  <ion-label position="stacked">{{ 'FIELD_DISTANCE' | translate }}</ion-label>
+                  <ion-input type="text" placeholder="{{ 'FIELD_DISTANCE_IN_KM' | translate }}" autocorrect="false"
+                      clearInput="true" [(ngModel)]="postalCodeDistance" maxlength="5"></ion-input>
+                </ion-item>
+
+                <ion-item lines="none" *ngIf="postalSegmentValue == 'l'">
+                  <ion-label position="stacked">{{ 'FIELD_LATITUDE' | translate }}</ion-label>
+                  <ion-input type="text" placeholder="{{ 'FIELD_LATITUDE_PLACEHOLDER' | translate }}" autocorrect="false"
+                    clearInput="true" [(ngModel)]="latitude" maxlength="12"></ion-input>
+                  
+                  <ion-label position="stacked">{{ 'FIELD_LONGITUDE' | translate }}</ion-label>
+                  <ion-input type="text" placeholder="{{ 'FIELD_LONGITUDE_PLACEHOLDER' | translate }}" autocorrect="false"
+                      clearInput="true" [(ngModel)]="longitude" maxlength="12"></ion-input>
+
+                  <ion-label position="stacked">{{ 'FIELD_DISTANCE' | translate }}</ion-label>
+                  <ion-input type="text" placeholder="{{ 'FIELD_DISTANCE_IN_KM' | translate }}" autocorrect="false"
+                      clearInput="true" [(ngModel)]="postalCodeDistance" maxlength="5"></ion-input>
+                </ion-item>
+                <ion-button *ngIf="postalSegmentValue != ''" color="primary" type="button" (click)="applyPostalCode()">{{ 'BUTTON_APPLY' | translate }}
+                </ion-button>
+              </ion-card-content>
+            </ion-card>
+
+          </div>
+        </ion-col>
+        <ion-col>
+          <div *ngFor="let v of venueResults;let i = index as i">
+            <venue-card-comp [venue]="v"></venue-card-comp>
+            <ion-card>
+              <ion-card-content>
+                <ion-button color="primary" type="button" [routerLink]="['/venue', v.id]">{{ 'BUTTON_VIEW_VENUE' |
+                  translate }}</ion-button>
+                <ion-button color="primary" type="button" [routerLink]="['/location', v.locationId]">{{
+                  'BUTTON_VIEW_LOCATION' | translate }}</ion-button>
+              </ion-card-content>
+            </ion-card>
+          </div>
+
+          <ion-list class="tableCommon">
+            <ion-item class="tableFooter">
+              <ion-label class="col">
+                <ion-button expand="block" [disabled]="dataResultCount <= venueResults.length" (click)="moreButton()">{{
+                  'BUTTON_LOAD_MORE' | translate }} ({{venueResults.length}} {{ 'VENUE_CARD_OF' | translate }}
+                  {{dataResultCount | formatNumberPipe}})</ion-button>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </div>
+</ion-content>

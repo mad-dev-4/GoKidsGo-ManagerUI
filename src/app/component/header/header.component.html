@@ -1,0 +1,21 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="true"></ion-menu-button>
+    </ion-buttons>
+    <ion-title><img src="assets/gokidsgo-nobk.png" height="50" alt="{{ 'LOGO_ALT' | translate }}" /></ion-title>
+
+    <ion-buttons slot="primary" *ngIf="primaryButtonText != null">
+      <ion-button (click)="primaryButtonClickAction()">
+        <ion-icon slot="start" name="{{primaryButtonIcon}}"></ion-icon>
+        {{ primaryButtonText | translate }}
+      </ion-button>
+
+      <ion-button (click)="secondaryButtonClickAction()" *ngIf="secondaryButtonText != null">
+        <ion-icon slot="start" name="{{secondaryButtonIcon}}"></ion-icon>
+        {{ secondaryButtonText | translate }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+

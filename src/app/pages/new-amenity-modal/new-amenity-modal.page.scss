@@ -1,0 +1,19 @@
+:host {
+    .ionChipPreview {
+        margin-left:10px;
+        
+    }
+    .iconArea {
+        width: 95%;
+        height:300px;
+        text-align: center;
+        overflow-y: scroll;
+
+        .iconSelect {
+            cursor: pointer;
+            width:60px;
+            padding-left:2px; 
+        }
+        
+    }
+}

@@ -1,0 +1,36 @@
+:host {
+  .treeNavRoot {
+    list-style: none;
+    padding-left: 0;
+
+    ion-icon {
+      padding-top: 2px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .treeText {
+      padding-left: 3px;
+      cursor: pointer;
+    }
+    .treeTextSelected {
+      padding-left: 3px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    ion-label {
+      line-height: 25px;
+      vertical-align: top;
+    }
+    .treeNav {
+      list-style: none;
+      padding: 5px;
+      li {
+        padding: 5px 0 5px 15px;
+      }
+    }
+  }
+  .expanding {
+    transform: rotate(90deg);
+    transition: 300ms transform cubic-bezier(0.25, 0.8, 0.5, 1);
+  }
+}

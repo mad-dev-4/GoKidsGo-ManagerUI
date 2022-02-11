@@ -1,0 +1,119 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><img src="/resources/icon.png" /></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <h1>{{ 'WORKFLOW_DETAILS' | translate}}</h1>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-card *ngIf="workflow != null">
+            <ion-card-header>
+              <ion-card-title>{{ 'WORKFLOW_INFO' | translate }}</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <ion-item lines="none">
+                <ion-label position="stacked">{{ 'FIELD_NAME' | translate }}</ion-label>
+                <ion-text color="primary">{{workflow.name}}</ion-text>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-label position="stacked">{{ 'FIELD_STATUS' | translate }}</ion-label>
+                <ion-text color="primary">{{workflow.status}}</ion-text>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-label position="stacked">{{ 'FIELD_CREATED' | translate }}</ion-label>
+                <ion-text color="primary">{{workflow.createdDate | formatDateTime}}</ion-text>
+              </ion-item>
+              <ion-item lines="none" *ngIf="workflow.locationId=='00000000-0000-0000-0000-000000000000'">
+                <ion-label position="stacked">{{ 'FIELD_VENUE' | translate }}</ion-label>
+                <ion-text color="primary">{{workflow.venueId}}</ion-text>
+
+                <span *ngIf="venueOrLocation != null && venueOrLocation.description != null">
+                  <ion-label position="stacked">{{ 'FIELD_VENUE_NAME' | translate }}</ion-label>
+                  <ion-text color="primary">{{venueOrLocation.description[0].name}}</ion-text>
+                </span>
+                
+                <ion-button color="primary" expand="block" type="button" 
+                  [routerLink]="['/venue/'+workflow.venueId]">{{ 'BUTTON_VIEW' | translate }}</ion-button>
+              </ion-item>
+
+              <ion-item lines="none" *ngIf="workflow.venueId=='00000000-0000-0000-0000-000000000000'">
+                <ion-label position="stacked">{{ 'FIELD_LOCATION' | translate }}</ion-label>
+                <ion-text color="primary">{{workflow.locationId}}</ion-text>
+
+                <span *ngIf="venueOrLocation != null && venueOrLocation.description != null">
+                  <ion-label position="stacked">{{ 'FIELD_LOCATION_NAME' | translate }}</ion-label>
+                  <ion-text color="primary">{{venueOrLocation.description[0].name}}</ion-text>
+                </span>
+
+                <ion-button color="primary" expand="block" type="button" 
+                  [routerLink]="['/location/'+workflow.venueId]">{{ 'BUTTON_VIEW' | translate }}</ion-button>
+              </ion-item>
+
+              <br />
+              <ion-button color="primary" expand="block" type="button" (click)="closeAndApproveWorkflow()" 
+                [disabled]="!canCloseWorkflow">{{ 'BUTTON_APPROVE_AND_CLOSE' | translate }}</ion-button>
+            
+            </ion-card-content>
+          </ion-card>
+
+
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>{{ 'WORKFLOW_ADD_UPDATE' | translate }}</ion-card-title>
+            </ion-card-header>
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_NEXT_ACTION_TAKER' | translate }}</ion-label>
+              <ion-input type="text" placeholder="{{ 'FIELD_NEXT_ACTION_TAKER_PLACEHOLDER' | translate }}" 
+                autocorrect="false" clearInput="true" [(ngModel)]="newEventActionTaker" #input maxlength="250"></ion-input>
+            </ion-item> 
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_NOTES' | translate }}</ion-label>
+              <ion-textarea type="text" placeholder="{{ 'FIELD_NOTES_PLACEHOLDER' | translate }}" autocorrect="false" 
+                clearInput="true" 
+                [(ngModel)]="newEventNotes" #input maxlength="2000"></ion-textarea>
+            </ion-item> 
+            <br />
+            <ion-button color="primary" expand="block" type="button" (click)="saveEvent()" 
+              [disabled]="newEventNotes == ''">{{ 'BUTTON_SAVE' | translate }}</ion-button>
+            
+          </ion-card>
+
+        </ion-col>
+
+        <ion-col *ngIf="workflow != null && workflow.events != null">
+          <ion-card *ngFor="let w of workflow.events">
+            <ion-card-header>
+              <ion-card-title>{{ 'WORKFLOW_TASKS' | translate }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_EVENT_DATE' | translate }}</ion-label>
+              <ion-text color="primary">{{w.eventDate | formatDateTime}}</ion-text>
+            </ion-item>
+            <ion-item lines="none"> 
+              <ion-label position="stacked">{{ 'FIELD_NEXT_ACTION_TAKER' | translate }}</ion-label>
+              <ion-text color="primary" *ngIf="w.actionTakerUserId != null">{{w.actionTakerUserId}}</ion-text>
+              <ion-text color="primary" *ngIf="w.actionTakerUserId == null">{{ 'FIELD_NONE' | translate }}</ion-text>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">{{ 'FIELD_NOTES' | translate }}</ion-label>
+              <ion-text color="primary" *ngIf="w.note != null">{{w.note}}</ion-text>
+              <ion-text color="primary" *ngIf="w.note == null">{{ 'FIELD_NONE' | translate }}</ion-text>
+            </ion-item>
+
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

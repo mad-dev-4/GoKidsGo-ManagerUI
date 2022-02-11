@@ -1,0 +1,118 @@
+<app-header [primaryButtonIcon]="'add-outline'" [primaryButtonText]="'BUTTON_ADD_TAG'"
+  (primaryButtonEvent)="presentTagCreateModal($event)" [secondaryButtonIcon]="'add-outline'"
+  [secondaryButtonText]="'BUTTON_ADD_AMENITY'" (secondaryButtonEvent)="presentAmenityCreateModal($event)">
+</app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><img src="/resources/icon.png" /></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <h1>{{ 'TAG_SEARCH_TITLE' | translate }}</h1>
+
+    <ion-segment (ionChange)="segmentChanged($event)" color="primary" value="tag">
+      <ion-segment-button value="tag">
+        <ion-label>{{'TAG_SEARCH_TAGS' | translate}}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="amenity">
+        <ion-label>{{'TAG_SEARCH_AMENITIES' | translate}}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+
+
+          <!-- Begin: if TAG -->
+          <ion-grid *ngIf="segmentValue == 'tag'">
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="stacked" autocorrect="false" clearInput="true">{{ 'FIELD_ID' | translate }}
+                  </ion-label>
+                  <ion-input type="text" [(ngModel)]="formObj.tagId" #input maxlength="75"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="stacked" autocorrect="false" clearInput="true">{{ 'FIELD_NAME' | translate }}
+                  </ion-label>
+                  <ion-input type="text" [(ngModel)]="formObj.name" #input maxlength="50"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="stacked">{{ 'FIELD_SEARCHABLE' | translate }}</ion-label>
+                  <ion-select [(ngModel)]="formObj.searchable" interface="popover">
+                    <ion-select-option value="true">{{ 'FIELD_SEARCHABLE' | translate }}</ion-select-option>
+                    <ion-select-option value="false">{{ 'FIELD_NOT_SEARCHABLE' | translate }}</ion-select-option>
+                    <ion-select-option value="">{{ 'FIELD_BOTH' | translate }}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="stacked">{{ 'FIELD_VIEWABLE' | translate }}</ion-label>
+                  <ion-select [(ngModel)]="formObj.viewable" interface="popover">
+                    <ion-select-option value="true">{{ 'FIELD_VIEWABLE' | translate }}</ion-select-option>
+                    <ion-select-option value="false">{{ 'FIELD_NOT_VIEWABLE' | translate }}</ion-select-option>
+                    <ion-select-option value="">{{ 'FIELD_BOTH' | translate }}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col>
+                <ion-button color="primary" type="button" (click)="goToSearchResultPage()">{{ 'BUTTON_SEARCH' |
+                  translate }}
+                </ion-button>
+              </ion-col>
+            </ion-row>
+
+          </ion-grid>
+          <!-- End: if TAG -->
+
+
+          <!-- Begin: if Amenity -->
+          <ion-grid *ngIf="segmentValue == 'amenity'">
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="stacked" autocorrect="false" clearInput="true">{{ 'FIELD_ID' | translate }}
+                  </ion-label>
+                  <ion-input type="text" [(ngModel)]="formObj.tagId" #input maxlength="75"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="stacked" autocorrect="false" clearInput="true">{{ 'FIELD_NAME' | translate }}
+                  </ion-label>
+                  <ion-input type="text" [(ngModel)]="formObj.name" #input maxlength="50"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col>
+                <ion-button color="primary" type="button" (click)="goToSearchResultPage()">{{ 'BUTTON_SEARCH' |
+                  translate }}
+                </ion-button>
+              </ion-col>
+            </ion-row>
+
+          </ion-grid>
+          <!-- End: if Amenity -->
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

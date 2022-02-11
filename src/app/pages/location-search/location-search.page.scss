@@ -1,0 +1,37 @@
+:host {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    h1, .subtitle {
+      padding-left:21px
+    }
+    ion-content {
+      --padding-start: 6px;
+    }
+    ion-title {
+      padding-inline: 0px;
+      img {
+          padding-top:4px; 
+      }
+    }
+    ion-toolbar {
+        --background: var(--ion-toolbar-background, var(--ion-background-color, #000));
+        --border-color: var(--ion-toolbar-border-color, var(--ion-border-color, var(--ion-color-step-150, #fff)));
+       /* height:150px;*/
+        color:white;
+    }
+
+    ion-item.tableHeader {
+        --height:3px;
+      }
+      ion-item.actionMenu {
+        --ion-item-background: #c9c9c9;
+        --border-width:0;
+        --min-height:5px;
+        --border-style:0;
+      }
+ 
+    .dateTime {
+      display:block;
+      padding-left:5px;
+    }
+
+}

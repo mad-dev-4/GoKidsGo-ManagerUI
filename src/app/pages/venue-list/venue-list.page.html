@@ -1,0 +1,41 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><img src="/resources/icon.png" /></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <h1>{{'VENUE_SEARCH_RESULTS' | translate}}</h1>
+    <ion-list class="tableCommon">
+      <ion-item class="tableHeader" lines="none">
+        <ion-label class="col">{{'FIELD_IDENTIFIER' | translate}}</ion-label>
+        <ion-label class="col">{{'FIELD_NAME' | translate}}</ion-label>
+        <ion-label class="col">{{'FIELD_ACTIVE' | translate}}</ion-label>
+        <ion-label class="col">{{'FIELD_HIDDEN' | translate}}</ion-label>
+        <ion-label class="col">{{'FIELD_LOCATION' | translate}}</ion-label>
+      </ion-item>
+      <ion-item *ngFor="let v of venues">
+        <ion-label class="col"><a href="#" [routerLink]="['/venue', v.id]" >{{v.identifier}}</a>
+        </ion-label>
+        <ion-label class="col">{{v.description[0].name}}</ion-label>
+        <ion-label class="col">{{v.active}}</ion-label>
+        <ion-label class="col">{{v.hidden}}</ion-label>
+        <ion-label class="col">{{v?.location?.identifier}}</ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-list class="tableCommon">
+      <ion-item class="tableFooter">
+        <ion-label class="col">
+            <ion-button disabled="{{venue.pageNumber<=1}}" (click)="previousPage()">{{ 'BUTTON_PREVIOUS' | translate }}</ion-button>&nbsp;
+            <ion-button disabled="{{venue.dataResultCount < (venue.pageNumber*venue.pageSize)}}" (click)="nextPage()">{{ 'BUTTON_NEXT' | translate }}</ion-button></ion-label>
+        <ion-label class="col">{{ 'RESULTS_TOTAL' | translate }} {{venue.dataResultCount | formatNumberPipe}}</ion-label>
+        <ion-label class="col">{{ 'RESULTS_PAGE' | translate }} {{venue.pageNumber}}</ion-label>
+        <ion-label class="col"></ion-label>
+      </ion-item>
+    </ion-list>
+
+  </div>
+</ion-content>

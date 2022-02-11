@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'WORKFLOW_CREATE_TITLE' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list lines="full">
+    <ion-item class="header">
+      <ion-label class="col">
+          <ion-button color="primary" [disabled]="!isReadyToSave" expand="full" (click)="closeAndSaveSelections()">{{ 'BUTTON_SAVE' | translate }}</ion-button>
+      </ion-label>
+      <ion-label class="col">
+        <ion-button color="primary" expand="full" (click)="closeModal()">{{ 'BUTTON_CANCEL' | translate }}</ion-button>
+    </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list lines="full">
+    
+    <ion-item lines="none">
+      <ion-label position="stacked">{{ 'FIELD_NAME' | translate }}</ion-label>
+      <ion-input type="text" (change)="dataChanged()" placeholder="{{ 'FIELD_NAME_PLACEHOLDER' | translate }}" [(ngModel)]="workflow.name"></ion-input>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label position="stacked">{{ 'FIELD_NOTES' | translate }}</ion-label>
+      <ion-textarea type="text" placeholder="{{ 'FIELD_NOTES_PLACEHOLDER' | translate }}" autocorrect="true" 
+        clearInput="true" (change)="dataChanged()" [(ngModel)]="workflow.initialEvent.note" maxlength="2000"></ion-textarea>
+    </ion-item>
+  
+  </ion-list>
+
+</ion-content>

@@ -1,0 +1,53 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><img src="/resources/icon.png" /></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container" *ngIf="pageInput != null">
+    <h1>{{ 'AUDIT_LIST_TITLE' | translate }}</h1>
+
+
+    <ion-list class="tableCommon">
+      <ion-item class="tableHeader" lines="none">
+        <ion-label class="col">{{'FIELD_ID' | translate}}</ion-label>
+        <ion-label class="col">{{'FIELD_ENTITY_TYPE' | translate}}</ion-label>
+        <ion-label class="col">{{'FIELD_USER_ID' | translate}}</ion-label>
+        <ion-label class="col">{{'FIELD_CREATED_DATE' | translate}}</ion-label>
+        <ion-label class="col-icon"></ion-label>
+      </ion-item>
+
+      <ion-accordion-group>
+        <ion-accordion value="{{v.id}}" *ngFor="let v of dataResultList">
+          <ion-item slot="header">
+            <ion-label class="col">{{v.id}}</ion-label>
+            <ion-label class="col">{{v.entityType}}</ion-label>
+            <ion-label class="col">{{v.userIdentifier}}</ion-label>
+            <ion-label class="col">{{v.updatedDate | formatDateTime}}</ion-label>
+          </ion-item>
+          <ion-list slot="content">
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_MESSAGE'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v.update}}</ion-text>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+      </ion-accordion-group>
+
+    </ion-list>
+
+    <ion-list class="tableCommon">
+      <ion-item class="tableFooter">
+        <ion-label class="col">
+            <ion-button disabled="{{pageInput.pageNumber<=1}}" (click)="previousPage()">{{ 'BUTTON_PREVIOUS' | translate }}</ion-button>&nbsp;
+            <ion-button disabled="{{dataResultCount < (pageInput.pageNumber*pageInput.pageSize)}}" (click)="nextPage()">{{ 'BUTTON_NEXT' | translate }}</ion-button></ion-label>
+        <ion-label class="col">{{ 'RESULTS_TOTAL' | translate }} {{dataResultCount | formatNumberPipe}}</ion-label>
+        <ion-label class="col">{{ 'RESULTS_PAGE' | translate }} {{pageInput.pageNumber}}</ion-label>
+        <ion-label class="col"></ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

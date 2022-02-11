@@ -1,0 +1,106 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><img src="/resources/icon.png" /></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <h1>{{ 'IMG_MGMT_PAGE_TITLE' | translate }}</h1>
+
+    <ion-grid>
+        <ion-row>
+          <ion-col size="9">
+              <ion-card>
+                <ion-card-header>
+                  <ion-text>{{'IMG_AREA_DESCRIPTION' | translate}}</ion-text>
+                </ion-card-header>
+                <ion-card-content  class="editing-card">
+                  <div class="editing-area">
+                    <div class="overlayCropArea" #draggableArea *ngIf="clippingEnabled"
+                      (mousedown)="mouseDownOnDraggableArea($event)" 
+                      (mouseup)="closeDragElement($event)"
+                      (mousemove)="elementDrag($event)">{{'IMG_AREA_DRAG' | translate}}</div>
+                      <canvas class="editing-image" #canvas></canvas>
+                  </div>
+                  <img style="display:none" #editingImg src="{{selectedImage?.imageSRC}}" (load)="imageLoaded($event)" />
+
+                  <br/>
+                  <ion-button color="primary" type="button" *ngIf="!clippingEnabled" (click)="enableClipping()">{{ 'BUTTON_ENABLE_CLIPPING' | translate }}</ion-button>
+                  <ion-button color="primary" type="button" *ngIf="clippingEnabled" (click)="cropClipping()">{{ 'BUTTON_DISABLE_CLIPPING' | translate }}</ion-button>
+                  <ion-button color="primary" type="button" *ngIf="clippingEnabled" (click)="cancelClipping()">{{ 'BUTTON_CANCEL' | translate }}</ion-button>
+                  
+                  <ion-button color="tertiary" expand="full" type="button" (click)="resetImage()">{{ 'BUTTON_RESET_IMAGE' | translate }}</ion-button>  
+                </ion-card-content>
+              </ion-card>
+              
+          </ion-col>
+
+          <ion-col size="3">
+            <ion-card>
+              <ion-card-header>
+                <ion-card-title>{{ 'IMG_DETAILS' | translate }}</ion-card-title>
+              </ion-card-header>
+              <ion-card-content *ngIf="selectedImage != null" class="editing-card">
+                <ion-item lines="none">
+                  <ion-label position="stacked">{{ 'FIELD_IMAGE_SIZE' | translate }}</ion-label>
+                  <ion-input type="text" disabled="true"   
+                    [(ngModel)]="selectedImage.imageSizeBytes" maxlength="20"></ion-input>
+                </ion-item>
+                <ion-item lines="none">
+                  <ion-label position="stacked">{{ 'FIELD_USAGE' | translate }}</ion-label>
+                  <ion-input type="text" disabled="true"  
+                    [(ngModel)]="selectedImage.usage" maxlength="30"></ion-input>
+                </ion-item>
+                <ion-item lines="none">
+                  <ion-label position="stacked">{{ 'FIELD_IMG_SEQUENCE' | translate }}</ion-label>
+                  <ion-input type="number" (change)="imageDataChanged(true)"    
+                    [(ngModel)]="selectedImage.sequence" maxlength="4"></ion-input>
+                </ion-item>
+                <ion-item lines="none">
+                  <ion-label position="stacked">{{ 'FIELD_IMAGE_SIZE_WIDTH' | translate }}</ion-label>
+                  <ion-input type="number" (change)="imageSizeChanged(0)"    
+                    [(ngModel)]="selectedImageDimensions.width" maxlength="8"></ion-input>
+                </ion-item>
+                <ion-item lines="none">
+                  <ion-label position="stacked">{{ 'FIELD_IMAGE_SIZE_HEIGHT' | translate }}</ion-label>
+                  <ion-input type="number" (change)="imageSizeChanged(1)"    
+                    [(ngModel)]="selectedImageDimensions.height" maxlength="8"></ion-input>
+                </ion-item>
+                
+                <ion-item lines="none">
+                  <ion-label position="stacked">{{ 'FIELD_ALT_TEXT' | translate }}</ion-label>
+                  <ion-input type="text" placeholder="{{ 'FIELD_ALT_TEXT_PLACEHOLDER' | translate }}" autocorrect="false" clearInput="true"  
+                    (change)="imageDataChanged(false)" 
+                    [(ngModel)]="selectedImage.altText" maxlength="75"></ion-input>
+                </ion-item>
+  
+                <br />
+                <ion-button color="primary" expand="block" type="button" (click)="saveLocationDetails()" [disabled]="!isImageDataReadyToSave">{{ 'BUTTON_SAVE' | translate }}</ion-button>
+                
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row> 
+
+        <ion-row>
+        <ion-col size="12"> 
+
+          <app-image-gallery 
+            [locationId]="locationId" 
+            [venueId]="venueId"
+            [enableEditButton]="true"
+            [images]="images"
+            (buttonEditEvent)="editImage($event)"
+            [enableImageManagementButton]="false">
+          </app-image-gallery>
+
+        </ion-col>  
+
+        </ion-row>
+    </ion-grid>
+
+  </div>
+</ion-content>

@@ -1,0 +1,30 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title><ion-icon name="images-outline"></ion-icon> {{ 'IMAGES_CARD' | translate }}</ion-card-title>
+    <ion-card-subtitle>{{ 'IMAGES_CARD_EXPLAINED' | translate }}{{images?.length}}</ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-item>
+    <ion-button color="secondary" (click)="f.click()">
+      <ion-icon name="cloud-upload-outline"></ion-icon>
+      &nbsp;<ion-label slot="end">{{ 'BUTTON_UPLOAD' | translate }}</ion-label>
+    </ion-button>
+    <input class="ion-hide" #f type="file" (change)="loadImageFromDevice($event)" id="file-input"
+      accept="image/png, image/jpeg">
+  </ion-item>
+
+  <ion-card-content *ngIf="images != null">
+    <span class="imageTinyArea" *ngFor="let img of images">
+      <ion-text class="sequenceTxt">{{ 'IMG_SEQUENCE' | translate }} {{img.sequence}}</ion-text>
+      <a target="blank" href="{{img.imageSRC}}"><img class="imageTiny" src="{{img.imageSRC}}" /></a>
+      <ion-button class="imageButton" color="secondary" size="small" (click)="deleteButtonClickAction(img.id)">
+        {{ 'BUTTON_DELETE' | translate }}</ion-button>
+      <ion-button *ngIf="enableEditButton" class="imageButton" color="secondary" size="small"
+        (click)="editButtonClickAction(img.id)">
+        {{ 'BUTTON_EDIT' | translate }}</ion-button>
+    </span>
+    <ion-button *ngIf="enableImageManagementButton" color="tertiary" expand="block"
+      (click)="imageManagementButtonClickAction()">{{ 'BUTTON_IMG_MGMT' | translate }}
+    </ion-button>
+  </ion-card-content>
+</ion-card>

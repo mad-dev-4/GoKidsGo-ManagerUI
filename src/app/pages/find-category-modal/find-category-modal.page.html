@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'CATEGORY_FIND_TITLE' | translate }}</ion-title>
+    <ion-buttons slot="primary" class="closeIconHeader">
+      <ion-icon name="close-outline" (click)="closeModal()"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list lines="full">
+    <ion-item class="header">
+      <ion-label class="col">
+          <ion-button color="primary" [disabled]="selectedCategories.length <= 0" expand="full" (click)="closeAndKeepSelections()">{{ 'CATEGORY_FIND_CLOSE_SAVE' | translate }} {{selectedCategories.length}}</ion-button>
+      </ion-label>
+      <ion-label class="col">
+        <ion-button color="primary" expand="full" (click)="closeModal()">{{ 'BUTTON_CANCEL' | translate }}</ion-button>
+    </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <h3>{{ 'CATEGORY_CATEGORIES' | translate }}</h3>
+        <app-category-tree 
+          [categories]="categories"
+          [categoryEditor]="category"
+          (buttonTopCategoryExpandClickEvent)="categoryClicked($event)"
+          (buttonCategoryClickEvent)="categoryClicked($event)">
+        </app-category-tree>
+      </ion-col>
+
+      <ion-col>
+        <h3>{{ 'CATEGORY_SELECTED' | translate }}</h3>  
+        <ion-chip outline="true" *ngFor="let cat of selectedCategories">
+          <ion-label>{{cat.name}}</ion-label>
+          <ion-icon name="close-circle" (click)="removeCategory(cat.id)"></ion-icon>
+        </ion-chip>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+</ion-content>

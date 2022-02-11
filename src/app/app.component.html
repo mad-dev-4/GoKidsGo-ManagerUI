@@ -1,27 +1,69 @@
-<ion-app>
+<ion-app> 
   <ion-split-pane contentId="main-content">
     <ion-menu contentId="main-content" type="overlay">
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>{{ 'LEFT_NAV_TITLE' | translate }}</ion-title>
+        </ion-toolbar>
+      </ion-header>
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi@ionicframework.com</ion-note>
+          <ion-list-header>{{userEmailAddress}}</ion-list-header>
 
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-              <ion-label>{{ p.title }}</ion-label>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerDirection="root" [routerLink]="['/home']" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" ios="pulse-outline" md="pulse-sharp"></ion-icon>
+              <ion-label>{{ 'LEFT_NAV_HOME' | translate }}</ion-label>
             </ion-item>
+
+            <ion-item routerDirection="root" [routerLink]="['/location-search']" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" ios="globe-outline" md="globe-sharp"></ion-icon>
+              <ion-label>{{ 'LEFT_NAV_LOCATIONS' | translate }}</ion-label>
+            </ion-item>
+
+            <ion-item routerDirection="root" routerLink="venue-search" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" ios="home-outline" md="home-sharp"></ion-icon>
+              <ion-label>{{ 'LEFT_NAV_VENUES' | translate }}</ion-label>
+            </ion-item>
+
+            <ion-item routerDirection="root" [routerLink]="['/tag-search']" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" ios="pricetags-outline" md="pricetags-sharp"></ion-icon>
+              <ion-label>{{ 'LEFT_NAV_TAGS' | translate }}</ion-label>
+            </ion-item>
+
+            <ion-item routerDirection="root" [routerLink]="['/category-list']" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" ios="duplicate-outline" md="duplicate-sharp"></ion-icon>
+              <ion-label>{{ 'LEFT_NAV_CATEGORIES' | translate }}</ion-label>
+            </ion-item>
+
+            <ion-item routerDirection="root" [routerLink]="['/postal-search']" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" ios="barcode-outline" md="barcode-sharp"></ion-icon>
+              <ion-label>{{ 'LEFT_NAV_POSTAL' | translate }}</ion-label>
+            </ion-item>
+
+            <ion-item routerDirection="root" [routerLink]="['/user-search']" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" ios="person-outline" md="person-sharp"></ion-icon>
+              <ion-label>{{ 'LEFT_NAV_USER' | translate }}</ion-label>
+            </ion-item>
+
+            <ion-item routerDirection="root" [routerLink]="['/alert-search']" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" ios="alert-circle-outline" md="alert-circle-sharp"></ion-icon>
+              <ion-label>{{ 'LEFT_NAV_ALERTS' | translate }}</ion-label>
+            </ion-item>
+
+            <ion-item routerDirection="root" [routerLink]="['/jobs-list']" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" ios="reload-circle-outline" md="reload-circle-sharp"></ion-icon>
+              <ion-label>{{ 'LEFT_NAV_JOBS' | translate }}</ion-label>
+            </ion-item>
+
+            <ion-item routerDirection="root" [routerLink]="['/browse-venues']" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" ios="browsers-outline" md="browsers-sharp"></ion-icon>
+              <ion-label>{{ 'LEFT_NAV_BROWSE_VENUES' | translate }}</ion-label>
+            </ion-item>
+
           </ion-menu-toggle>
         </ion-list>
 
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
-
-          <ion-item *ngFor="let label of labels" lines="none">
-            <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-            <ion-label>{{ label }}</ion-label>
-          </ion-item>
-        </ion-list>
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>

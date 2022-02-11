@@ -1,0 +1,84 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><img src="/resources/icon.png" /></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <h1>{{ 'LOCATION_LIST_TITLE' | translate }}</h1>
+
+    <ion-list class="tableCommon">
+      <ion-item class="tableHeader" lines="none">
+        <ion-label class="col">{{'FIELD_IDENTIFIER' | translate}}</ion-label>
+        <ion-label class="col">{{'FIELD_ADDRESS' | translate}}</ion-label>
+        <ion-label class="col">{{'FIELD_CITY_PROV' | translate}}</ion-label>
+        <ion-label class="col">{{'FIELD_POSTAL' | translate}}</ion-label>
+        <ion-label class="col"></ion-label>
+        <ion-label class="col-icon"></ion-label>
+      </ion-item>
+
+      <ion-accordion-group>
+        <ion-accordion value="{{v.id}}" *ngFor="let v of locations">
+          <ion-item slot="header">
+            <ion-label class="col">{{v.identifier}}</ion-label>
+            <ion-label class="col">{{v.address1}}</ion-label>
+            <ion-label class="col">{{v.city}}, {{v.province}}</ion-label>
+            <ion-label class="col">{{v.postalCode}}</ion-label>
+            <ion-label class="col">
+              <ion-button size="small" href="#" [routerLink]="['/location', v.id]" >{{'BUTTON_DETAILS'|translate}}</ion-button>
+            </ion-label>
+          </ion-item>
+          <ion-list slot="content">
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_ACTIVE'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v.active}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_HIDDEN'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v.hidden}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_COUNTRY'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v.country}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_LATITUDE'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v.latitude}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_LONGITUDE'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v.longitude}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_CREATED_DATE'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v.createdDate}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_UPDATED_DATE'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v.updatedDate}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_DESCRIPTION'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v?.description[0]?.description}}</ion-text>
+            </ion-item>
+          </ion-list>
+        </ion-accordion>
+      </ion-accordion-group>
+    </ion-list>
+
+    <ion-list class="tableCommon">
+      <ion-item class="tableFooter">
+        <ion-label class="col">
+            <ion-button disabled="{{location.pageNumber<=1}}" (click)="previousPage()">{{ 'BUTTON_PREVIOUS' | translate }}</ion-button>&nbsp;
+            <ion-button disabled="{{dataResultCount < (location.pageNumber*location.pageSize)}}" (click)="nextPage()">{{ 'BUTTON_NEXT' | translate }}</ion-button></ion-label>
+        <ion-label class="col">{{ 'RESULTS_TOTAL' | translate }} {{dataResultCount | formatNumberPipe}}</ion-label>
+        <ion-label class="col">{{ 'RESULTS_PAGE' | translate }} {{location.pageNumber}}</ion-label>
+        <ion-label class="col"></ion-label>
+      </ion-item>
+    </ion-list>
+
+  </div>
+</ion-content>

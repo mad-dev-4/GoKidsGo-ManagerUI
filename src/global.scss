@@ -24,3 +24,49 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+/* Add swiper styles for app */
+@import "~swiper/css";
+@import "~swiper/css/navigation";
+@import "~swiper/css/pagination";
+
+.yellow {
+    color: #fdf4da
+}
+.blue {
+    color: #74bcc8
+}
+.red {
+    color: #c65855
+}
+
+/* Table settings */
+.tableCommon {
+    .tableHeader {
+        --background: #3880ff;
+        --color: white;
+        .col-icon {
+            width: 40px;
+            max-width: 40px;
+        }
+    }
+    .tableFooter {
+        --background: #3880ff;
+        --color: white;
+
+        ion-button {
+            --color: white;
+        }
+    }
+}
+
+/* a global link cursor property for an icon */
+ion-icon.link {
+    cursor: pointer;
+}
+
+
+/*
+ion-accordion.accordion-expanded > [slot="header"] ion-icon.ion-accordion-toggle-icon {
+    --transform:rotate(90deg);
+}*/

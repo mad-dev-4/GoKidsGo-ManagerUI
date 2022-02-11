@@ -1,0 +1,89 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><img src="/resources/icon.png" /></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <h1>{{ 'USER_SEARCH_TITLE' | translate }}</h1>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6"> 
+          <ion-item>
+            <ion-label position="stacked" autocorrect="false" clearInput="true">{{ 'FIELD_OAUTH_USER_ID' | translate }}</ion-label>
+            <ion-input type="text" [(ngModel)]="formObj.id" #input maxlength="75"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="stacked" autocorrect="false" clearInput="true">{{ 'FIELD_EMAIL' | translate }}</ion-label>
+            <ion-input type="text" [(ngModel)]="formObj.email" #input maxlength="75"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6"> 
+          <ion-item>
+            <ion-label position="stacked" autocorrect="false" clearInput="true">{{ 'FIELD_FIRST_NAME' | translate }}</ion-label>
+            <ion-input type="text" [(ngModel)]="formObj.firstName" #input maxlength="75"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="stacked" autocorrect="false" clearInput="true">{{ 'FIELD_LAST_NAME' | translate }}</ion-label>
+            <ion-input type="text" [(ngModel)]="formObj.lastName" #input maxlength="75"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6"> 
+          <ion-item>
+            <ion-label position="stacked">{{ 'FIELD_ACTIVE' | translate }}</ion-label>
+            <ion-select [(ngModel)]="formObj.active" interface="popover">
+              <ion-select-option value="true">{{ 'FIELD_ACTIVE' | translate }}</ion-select-option>
+              <ion-select-option value="false">{{ 'FIELD_INACTIVE' | translate }}</ion-select-option>
+              <ion-select-option value="">{{ 'FIELD_BOTH' | translate }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="stacked">{{ 'FIELD_IDP' | translate }}</ion-label>
+            <ion-select [(ngModel)]="formObj.idp" interface="popover">
+                <ion-select-option *ngFor="let x of ipds" [value]="x.identifier">{{x.identifier}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6"> 
+          <ion-item>
+            <ion-label position="stacked">{{ 'RESULTS_PER_PAGE' | translate }}</ion-label>
+            <ion-select [(ngModel)]="formObj.pageSize" interface="popover">
+              <ion-select-option value="10">10</ion-select-option>
+              <ion-select-option value="50">50</ion-select-option>
+              <ion-select-option value="100">100</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6"> 
+        </ion-col>
+      </ion-row>
+     
+      <ion-row>
+        <ion-col> 
+          <ion-button color="primary" type="button" (click)="goToSearchResultPage()">{{ 'BUTTON_SEARCH' | translate }}</ion-button>
+        </ion-col>
+      </ion-row>
+      
+    </ion-grid>
+  </div>
+
+</ion-content>

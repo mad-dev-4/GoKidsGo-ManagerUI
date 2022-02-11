@@ -1,0 +1,52 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><img src="/resources/icon.png" /></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <h1>Home</h1>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+
+          <ion-card>
+            <ion-card-header>
+              <ion-card-subtitle>{{ 'HOME_RECENTLY_VIEWED' | translate }}</ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content>
+              <div *ngFor="let recentlyViewed of recentlyViewedArray">
+                <ion-button size="small" fill="clear" href="#" [routerLink]="[recentlyViewed.route, recentlyViewed.id]">
+                  {{recentlyViewed.type}}: {{recentlyViewed.name}}</ion-button>
+              </div>
+              <ion-button Size="small" fill="default" color="secondary" type="button"
+                (click)="clearRecentlyViewed($event)">{{ 'HOME_CLEAR' | translate }}</ion-button>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-button color="primary" (click)="userLogout()">{{ 'LOGOUT' | translate }}</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-subtitle>{{ 'HOME_WORKFLOW_TITLE' | translate }}</ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content>
+              <div *ngFor="let stats of workflowStats">
+                <ion-button size="small" fill="clear" href="#" [routerLink]="['/workflow-list', stats.statusName]">
+                  {{stats.statusName}}: {{stats.count}}</ion-button>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col> </ion-col>
+        <ion-col> </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

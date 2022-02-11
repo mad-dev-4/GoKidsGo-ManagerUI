@@ -1,0 +1,192 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><img src="/resources/icon.png" /></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <h1>{{ 'LOCATION_DETAILS_PAGE_TITLE' | translate }}</h1>
+
+    <ion-card *ngIf="location.id != null">
+      <ion-card-content>
+        <ion-button color="primary" type="button" (click)="viewLocationVenues()">{{ 'BUTTON_VIEW_VENUES_LOC' | translate }}</ion-button>
+        <ion-button color="primary" type="button" (click)="createVenueHere()">{{ 'BUTTON_ADD_VENUE' | translate }}</ion-button>
+        <ion-button color="secondary" type="button" (click)="openGoogle()"  [disabled]="location.latitude == '' || location.longitude == ''">{{ 'BUTTON_VIEW_ON_MAP' | translate }}</ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-grid *ngIf="location != null">
+        <ion-row>
+
+            <!-- Draw the deatails-->    
+        <ion-col>
+            <ion-card>
+              <ion-card-header>
+                <ion-card-title><ion-icon ios="globe-outline" md="globe-sharp"></ion-icon> {{ 'LOCATION_DETAILS_SECTION' | translate }}</ion-card-title>
+              </ion-card-header>
+              
+              <ion-item lines="none">
+                <ion-label position="stacked">{{ 'FIELD_ID' | translate }}</ion-label>
+                <ion-input type="text" disabled="true" [(ngModel)]="location.id"></ion-input>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-label position="stacked">{{ 'FIELD_CREATED_DATE' | translate }}</ion-label>
+                <ion-input type="text" disabled="true" value="{{location.createdDate | formatDateTime}}"></ion-input>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-label position="stacked">{{ 'FIELD_UPDATED_DATE' | translate }}</ion-label>
+                <ion-input type="text" disabled="true" value="{{location.updatedDate | formatDateTime}}"></ion-input>
+              </ion-item>
+  
+  
+              <ion-item lines="none">
+                <ion-label position="stacked">{{ 'FIELD_IDENTIFIER' | translate }}</ion-label>
+                <ion-input type="text" placeholder="{{ 'FIELD_IDENTIFIER_PLACEHOLDER' | translate }}" autocorrect="false" clearInput="true" (change)="dataChanged()" 
+                    [(ngModel)]="location.identifier" #input maxlength="250"></ion-input>
+              </ion-item> 
+              <ion-item lines="none">
+                <ion-label position="stacked">{{ 'FIELD_TITLE' | translate }}</ion-label>
+                <ion-input type="text" placeholder="{{ 'FIELD_TITLE_PLACEHOLDER' | translate }}" autocorrect="false" clearInput="true" (change)="dataChanged()" 
+                    [(ngModel)]="location.description[0].title" #input maxlength="250"></ion-input>
+              </ion-item> 
+              <ion-item lines="none">
+                <ion-label position="stacked">{{ 'FIELD_SUBTITLE' | translate }}</ion-label>
+                <ion-input type="text" placeholder="{{ 'FIELD_SUBTITLE_PLACEHOLDER' | translate }}" autocorrect="false" clearInput="true" (change)="dataChanged()" 
+                    [(ngModel)]="location.description[0].name" #input maxlength="250"></ion-input>
+              </ion-item> 
+              <ion-item lines="none">
+                <ion-label position="stacked">{{ 'FIELD_WEBSITE_URL' | translate }}</ion-label>
+                <ion-input type="url" placeholder="{{ 'FIELD_WEBSITE_PLACEHOLDER' | translate }}" autocorrect="false" clearInput="true"  (change)="dataChanged()" 
+                    [(ngModel)]="location.description[0].webSiteURL" #input maxlength="250"></ion-input>
+              </ion-item> 
+              <ion-item lines="none">
+                <ion-label position="stacked">{{ 'FIELD_DESCRIPTION' | translate }}</ion-label>
+                <ion-textarea type="text" placeholder="{{ 'FIELD_DESCRIPTION_PLACEHOLDER' | translate }}" autocorrect="false" clearInput="true" (change)="dataChanged()" 
+                    [(ngModel)]="location.description[0].description" #input maxlength="2000"></ion-textarea>
+              </ion-item> 
+
+              <ion-grid>
+                <ion-row>
+                  <ion-col>
+                    <ion-item lines="none">
+                      <ion-label>{{ 'FIELD_ACTIVATED_APPROVED' | translate }}</ion-label>
+                      <ion-checkbox slot="start" disabled="true" [(ngModel)]="location.active"></ion-checkbox>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col>
+                    <ion-item lines="none">
+                      <ion-label>{{ 'FIELD_HIDDEN' | translate }}</ion-label>
+                      <ion-checkbox slot="start" (click)="dataChanged()" [(ngModel)]="location.hidden"></ion-checkbox>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>  
+
+              <h2>{{'LOCATION_ADDRESS' | translate}}</h2>
+              <ion-item lines="none">
+                <ion-label position="stacked">{{ 'FIELD_ADDRESS' | translate }}</ion-label>
+                <ion-input type="text" placeholder="{{ 'FIELD_ADDRESS_PLACEHOLDER' | translate }}" autocorrect="false" clearInput="true"  (change)="dataChanged()" 
+                    [(ngModel)]="location.address1" #input maxlength="250"></ion-input>
+              </ion-item> 
+              <ion-item lines="none">
+                <ion-label position="stacked">{{ 'FIELD_CITY' | translate }}</ion-label>
+                <ion-input type="text" placeholder="{{ 'FIELD_CITY_PLACEHOLDER' | translate }}" autocorrect="false" clearInput="true"  (change)="dataChanged()" 
+                    [(ngModel)]="location.city" #input maxlength="250"></ion-input>
+              </ion-item> 
+              <ion-item lines="none">
+                <ion-label position="stacked">{{ 'FIELD_POSTAL' | translate }}</ion-label>
+                <ion-input type="text" placeholder="{{ 'FIELD_POSTAL_PLACEHOLDER' | translate }}" autocorrect="false" clearInput="true"  (change)="dataChanged()" 
+                    [(ngModel)]="location.postalCode" #input maxlength="250"></ion-input>
+              </ion-item> 
+              <ion-item>
+                <ion-label position="stacked">{{ 'FIELD_PROVINCE' | translate }}</ion-label>
+                <ion-select [(ngModel)]="location.province" interface="popover">
+                  <ion-select-option value="AB">{{ 'PROV_AB' | translate }}</ion-select-option>
+                  <ion-select-option value="BC">{{ 'PROV_BC' | translate }}</ion-select-option>
+                  <ion-select-option value="MB">{{ 'PROV_MB' | translate }}</ion-select-option>
+                  <ion-select-option value="NB">{{ 'PROV_NB' | translate }}</ion-select-option>
+                  <ion-select-option value="NL">{{ 'PROV_NL' | translate }}</ion-select-option>
+                  <ion-select-option value="NT">{{ 'PROV_NT' | translate }}</ion-select-option>
+                  <ion-select-option value="NS">{{ 'PROV_NS' | translate }}</ion-select-option>
+                  <ion-select-option value="NU">{{ 'PROV_NU' | translate }}</ion-select-option>
+                  <ion-select-option value="ON">{{ 'PROV_ON' | translate }}</ion-select-option>
+                  <ion-select-option value="PE">{{ 'PROV_PE' | translate }}</ion-select-option>
+                  <ion-select-option value="QC">{{ 'PROV_QC' | translate }}</ion-select-option>
+                  <ion-select-option value="SK">{{ 'PROV_SK' | translate }}</ion-select-option>
+                  <ion-select-option value="YU">{{ 'PROV_YT' | translate }}</ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">{{ 'FIELD_COUNTRY' | translate }}</ion-label>
+                <ion-select [(ngModel)]="location.country" interface="popover">
+                  <ion-select-option value="CA">{{ 'COUNTRY_CANADA' | translate }}</ion-select-option>
+                  <ion-select-option value="US">{{ 'COUNTRY_USA' | translate }}</ion-select-option>
+                </ion-select>
+              </ion-item>
+              
+              <ion-item lines="none">
+                <ion-label position="stacked">{{ 'FIELD_LATITUDE' | translate }}</ion-label>
+                <ion-input type="text" placeholder="{{ 'FIELD_LATITUDE_PLACEHOLDER' | translate }}" autocorrect="false" clearInput="true"  (change)="dataChanged()" 
+                    [(ngModel)]="location.latitude" #input maxlength="12"></ion-input>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-label position="stacked">{{ 'FIELD_LONGITUDE' | translate }}</ion-label>
+                <ion-input type="text" placeholder="{{ 'FIELD_LONGITUDE_PLACEHOLDER' | translate }}" autocorrect="false" clearInput="true"  (change)="dataChanged()" 
+                    [(ngModel)]="location.longitude" #input maxlength="12"></ion-input>
+              </ion-item>
+
+              <br />
+              <ion-button color="primary" expand="block" type="button" (click)="saveLocationDetails()" [disabled]="!isReadyToSave">{{ 'BUTTON_SAVE' | translate }}</ion-button>
+              
+            </ion-card>
+  
+        </ion-col> 
+        <ion-col> 
+          <app-image-gallery 
+            *ngIf="location" 
+            [locationId]="locationId" 
+            [enableEditButton]="false"
+            [images]="location.images"
+            [enableImageManagementButton]="true">
+          </app-image-gallery>
+
+            <!-- Begin: Workflow card --> 
+            <ion-card *ngIf="locationId != '0'">
+                <ion-card-header>
+                <ion-card-title><ion-icon name="hammer-outline"></ion-icon> {{ 'LOCATION_OPEN_WORKFLOWS' | translate }}</ion-card-title>
+                <ion-card-subtitle>{{ 'LOCATION_OPEN_WORKFLOWS_EXPLAINED' | translate }}</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content *ngIf="workflows != null">
+                <ion-list lines="full">
+                    <ion-item class="header">
+                    <ion-label class="col">{{ 'FIELD_NAME' | translate }}</ion-label>
+                    <ion-label class="col">{{ 'FIELD_CREATED' | translate }}</ion-label>
+                    </ion-item>
+                
+                    <ion-item *ngFor="let work of workflows" [routerLink]="['/workflow/'+work.id]">
+                    <ion-label class="ion-text-wrap">
+                        <ion-label class="ion-text-wrap">{{work.name}}</ion-label>
+                    </ion-label>
+                    <ion-label class="ion-text-wrap">
+                        <ion-label class="ion-text-wrap">{{work.createdDate | formatDateTime}}</ion-label>
+                        <ion-icon name="open-outline"></ion-icon>
+                    </ion-label>
+                    </ion-item>
+                </ion-list>
+                </ion-card-content>
+                <ion-card-content *ngIf="workflows.length == 0">
+                {{ 'LOCATION_WORKFLOW_NOT_FOUND' | translate }}
+                </ion-card-content>
+                
+            </ion-card>
+            <!-- End: Workflow card -->
+            
+          </ion-col>  
+
+        </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

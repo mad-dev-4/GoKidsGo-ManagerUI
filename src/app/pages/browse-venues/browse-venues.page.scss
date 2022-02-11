@@ -1,0 +1,26 @@
+:host {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+  h1 {
+    padding-left: 21px;
+  }
+
+  h2 {
+    padding: 0;
+    margin-bottom: 0;
+  }
+
+  .catfilterTree {
+    padding-left: 20px;
+    padding: 0 !important;
+  }
+  .activeCatFilter {
+    margin-left: 20px;
+  }
+  .filters {
+    padding-left:15px;
+    .filterCategory {
+      padding-top:20px;
+    }
+  }
+}

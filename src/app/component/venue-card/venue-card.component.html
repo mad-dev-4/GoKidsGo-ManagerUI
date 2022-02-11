@@ -1,0 +1,66 @@
+<!-- Begin: Example card -->
+<ion-card>
+  <ion-card-header>
+    <ion-card-title *ngIf="_venue.description != null">{{_venue.description[0]?.title}}</ion-card-title>
+  </ion-card-header>
+  <ion-item>
+    <div>
+
+      <ion-fab vertical="top" horizontal="end" slot="fixed">
+        <ion-fab-button color="secondary">
+          <ion-icon name="share"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="start">
+          <ion-fab-button color="secondary" (click)="clickThumbsup()">
+            <ion-label class="numberUnderFab" *ngIf="rating != null">{{rating.thumbsUp}}</ion-label>
+            <ion-icon class="fabIcon" name="thumbs-up-sharp"></ion-icon>
+          </ion-fab-button>
+        
+          <ion-fab-button color="secondary" (click)="clickThumbsdown()">
+            <ion-label class="numberUnderFab" *ngIf="rating != null">{{rating.thumbsDown}}</ion-label>
+            <ion-icon class="fabIcon" name="thumbs-down-sharp"></ion-icon>
+          </ion-fab-button>
+        </ion-fab-list>
+      </ion-fab>
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="hartColor != null">
+        <ion-fab-button color="{{hartColor}}" (click)="loveVenue()">
+          <ion-icon name="heart-sharp"></ion-icon>
+          <ion-icon name="checkmark-done" *ngIf="hartColor == 'danger'" class="lovedHeart"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+
+      <swiper 
+        [config]="config" 
+        class="mySwiper" 
+        (swiper)="onSwiper($event)" 
+        (slideChange)="onSlideChange()">
+        <ng-template swiperSlide *ngFor="let _img of _venue.images">
+          <img src="{{_img.imageSRC}}" class="venueImageSwiper" />
+        </ng-template>
+      </swiper>
+
+      
+    </div>
+  </ion-item>
+  <ion-card-content *ngIf="_venue.description != null && _venue.description[0] != null">
+    <ion-card-subtitle *ngIf="_venue.description[0].name != null">{{_venue.description[0].name}}</ion-card-subtitle>
+    <ion-text *ngIf="_venue.description[0].description != null">{{_venue.description[0]?.description}}</ion-text>
+    <div *ngIf="_venue.amenities != null && _venue.amenities.length > 0"> 
+      <ion-text color="dark" class="detailSection"> 
+        <h5>{{ 'VENUE_CARD_AMENITIES' | translate }}</h5>
+      </ion-text>
+      <ion-chip outline="false" *ngFor="let a of _venue.amenities">
+        <ion-icon color="primary" name="{{a.icon}}"></ion-icon>
+        <ion-label>{{a.description[0]?.name}}</ion-label>
+      </ion-chip>
+    </div>
+    <div *ngIf="_venue.location != null" class="detailSection"> 
+      <ion-text color="dark">
+        <h5>{{ 'VENUE_CARD_LOCATION' | translate }}</h5>
+        {{_venue.location.address1}}<br/>
+        {{_venue.location.city}}, {{_venue.location.province}}, {{_venue.location.postalCode}}
+      </ion-text>
+    </div>
+  </ion-card-content>
+</ion-card>
+<!-- End: Example card -->

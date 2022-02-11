@@ -1,0 +1,19 @@
+:host {
+  span.imageTinyArea {
+    width: 330px;
+    max-width: 330px;
+    padding: 0;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+    display: inline-block;
+
+    img.imageTiny {
+      width: 320px;
+      max-width: 320px;
+    }
+  }
+  .sequenceTxt {
+    display: block;
+  }
+}

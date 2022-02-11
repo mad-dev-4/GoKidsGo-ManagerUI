@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ 'LOGIN' | translate }}</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <h1 class="login-title"><img src="assets/gokidsgo-nobk.png" height="50" alt="{{ 'LOGO_ALT' | translate }}" /></h1>
+  <br /><br />
+    <ion-grid>
+      <ion-row color="primary" justify-content-center>
+        <ion-col align-self-center size-md="12" size-lg="12" size-xs="12">
+
+          <div padding>
+            <ion-item *ngFor="let i of idpList" lines="none">
+              <img src="assets/login/{{i.identifier}}.png" (click)="gotoIDP(i.redirectUrl)" 
+                class="loginButton" alt="{{ i.identifier }}" />
+            </ion-item>
+            
+
+            <div padding>
+              <br />
+              <br />
+              <ion-button color="secondary" (click)="loginDev()" *ngIf="isDevMode">
+                {{ 'LOGIN_LINK_DEV' | translate }}
+              </ion-button>
+            </div>
+
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+</ion-content>

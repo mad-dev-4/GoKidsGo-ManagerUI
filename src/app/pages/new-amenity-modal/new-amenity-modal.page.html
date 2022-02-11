@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'AMENITY_CREATE_TITLE' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list lines="full">
+    <ion-item class="header">
+      <ion-label class="col">
+          <ion-button color="primary" expand="full" [disabled]="amenityName == ''" (click)="closeAndSaveSelections()">{{ 'BUTTON_SAVE' | translate }}</ion-button>
+      </ion-label>
+      <ion-label class="col">
+        <ion-button color="primary" expand="full" (click)="closeModal()">{{ 'BUTTON_CANCEL' | translate }}</ion-button>
+    </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-chip class="ionChipPreview" outline="false">
+    <ion-icon color="primary" name="{{selectedIcon}}"></ion-icon>
+    <ion-label>{{amenityName}}</ion-label>
+  </ion-chip>
+
+  <ion-list lines="full">
+    
+    <ion-item lines="none">
+      <ion-label position="stacked">{{ 'FIELD_NAME' | translate }}</ion-label>
+      <ion-input type="text" placeholder="{{ 'FIELD_NAME_PLACEHOLDER' | translate }}" [(ngModel)]="amenityName"></ion-input>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label position="stacked">{{ 'FIELD_SELECT_ICON' | translate }}</ion-label>
+    </ion-item>
+
+    <div class="iconArea">
+      <ion-icon class="iconSelect" size="large" *ngFor="let i of iconChoices" 
+        (click)="selectIcon(i)" 
+        name="{{i}}">
+      </ion-icon>
+    </div>
+
+
+  
+  </ion-list>
+
+</ion-content>

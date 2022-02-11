@@ -1,0 +1,88 @@
+<app-header 
+  [primaryButtonIcon]="'add-outline'" 
+  [primaryButtonText]="'BUTTON_ADD_POSTAL'"
+  (primaryButtonEvent)="createNewPostalCode($event)">
+</app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"><img src="/resources/icon.png" /></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <h1>{{ 'POSTAL_SEARCH_TITLE' | translate }}</h1>
+
+    <ion-grid>
+
+      <ion-row>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="stacked" autocorrect="false" clearInput="true">{{ 'FIELD_POSTAL' | translate }}</ion-label>
+            <ion-input type="text" [(ngModel)]="formObj.postalCode" #input maxlength="7"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6"> 
+          <ion-item>
+            <ion-label position="stacked" autocorrect="false" clearInput="true">{{ 'FIELD_ID' | translate }}</ion-label>
+            <ion-input type="text" [(ngModel)]="formObj.id" #input maxlength="75"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="stacked" autocorrect="false" clearInput="true">{{ 'FIELD_CITY' | translate }}</ion-label>
+            <ion-input type="text" [(ngModel)]="formObj.city" #input maxlength="50"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6"> 
+          <ion-item>
+            <ion-label position="stacked">{{ 'FIELD_PROVINCE' | translate }}</ion-label>
+            <ion-select [(ngModel)]="formObj.provinceABBR" interface="popover">
+              <ion-select-option value="AB">{{ 'PROV_AB' | translate }}</ion-select-option>
+              <ion-select-option value="BC">{{ 'PROV_BC' | translate }}</ion-select-option>
+              <ion-select-option value="MB">{{ 'PROV_MB' | translate }}</ion-select-option>
+              <ion-select-option value="NB">{{ 'PROV_NB' | translate }}</ion-select-option>
+              <ion-select-option value="NL">{{ 'PROV_NL' | translate }}</ion-select-option>
+              <ion-select-option value="NT">{{ 'PROV_NT' | translate }}</ion-select-option>
+              <ion-select-option value="NS">{{ 'PROV_NS' | translate }}</ion-select-option>
+              <ion-select-option value="NU">{{ 'PROV_NU' | translate }}</ion-select-option>
+              <ion-select-option value="ON">{{ 'PROV_ON' | translate }}</ion-select-option>
+              <ion-select-option value="PE">{{ 'PROV_PE' | translate }}</ion-select-option>
+              <ion-select-option value="QC">{{ 'PROV_QC' | translate }}</ion-select-option>
+              <ion-select-option value="SK">{{ 'PROV_SK' | translate }}</ion-select-option>
+              <ion-select-option value="YU">{{ 'PROV_YT' | translate }}</ion-select-option>
+              <ion-select-option value="">{{ 'FIELD_ANY' | translate }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6"> 
+          <ion-item>
+            <ion-label position="stacked">{{ 'RESULTS_PER_PAGE' | translate }}</ion-label>
+            <ion-select [(ngModel)]="formObj.pageSize" interface="popover">
+              <ion-select-option value="10">10</ion-select-option>
+              <ion-select-option value="50">50</ion-select-option>
+              <ion-select-option value="100">100</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6"> 
+        </ion-col>
+      </ion-row>
+     
+      <ion-row>
+        <ion-col> 
+          <ion-button color="primary" type="button" (click)="goToSearchResultPage()">{{ 'BUTTON_SEARCH' | translate }}</ion-button>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+
+  </div>
+</ion-content>
