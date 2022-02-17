@@ -1,6 +1,7 @@
 {
 	"HOME_RECENTLY_VIEWED":"Recently Viewed",
 	"HOME_CLEAR":"Clear",
+	"HOME_HEADER":"Home",
 	"HOME_WORKFLOW_TITLE":"Work Tasks",
 	"LOGOUT":"Logout",
 
@@ -196,6 +197,7 @@
 	"FIELD_WEBSITE_URL":"Website URL",
 	"FIELD_ENTITY_TYPE":"Entity Type",
 	"FIELD_USER_ID":"User Identifier",
+	"FIELD_USER":"User",
 	"FIELD_FROM_DATE":"From Date",
 	"FIELD_TO_DATE":"To Date",
 	"FIELD_WEBSITE_PLACEHOLDER":"Enter website url here",

@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  development: true,
   loginUrl: "https://localhost:7246/",
   venueUrl: "https://localhost:5001/api/",
   identityUrl: "https://localhost:7246/api/",

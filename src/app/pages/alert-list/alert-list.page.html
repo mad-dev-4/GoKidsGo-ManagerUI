@@ -15,7 +15,8 @@
       <ion-item class="tableHeader" lines="none">
         <ion-label class="col">{{'FIELD_ID' | translate}}</ion-label>
         <ion-label class="col">{{'FIELD_ENTITY_TYPE' | translate}}</ion-label>
-        <ion-label class="col">{{'FIELD_USER_ID' | translate}}</ion-label>
+        <ion-label class="col">{{'FIELD_TITLE' | translate}}</ion-label>
+        <ion-label class="col">{{'FIELD_USER' | translate}}</ion-label>
         <ion-label class="col">{{'FIELD_CREATED_DATE' | translate}}</ion-label>
         <ion-label class="col-icon"></ion-label>
       </ion-item>
@@ -25,10 +26,15 @@
           <ion-item slot="header">
             <ion-label class="col">{{v.id}}</ion-label>
             <ion-label class="col">{{v.entityType}}</ion-label>
+            <ion-label class="col">{{v.shortMessage}}</ion-label>
             <ion-label class="col">{{v.userIdentifier}}</ion-label>
             <ion-label class="col">{{v.updatedDate | formatDateTime}}</ion-label>
           </ion-item>
           <ion-list slot="content">
+            <ion-item>
+              <ion-text color="primary">{{'FIELD_TITLE'|translate}}: </ion-text>
+              <ion-text class="valueOpt" color="dark">{{v.shortMessage}}</ion-text>
+            </ion-item>
             <ion-item>
               <ion-text color="primary">{{'FIELD_MESSAGE'|translate}}: </ion-text>
               <ion-text class="valueOpt" color="dark">{{v.update}}</ion-text>

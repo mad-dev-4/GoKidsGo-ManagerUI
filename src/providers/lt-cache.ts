@@ -18,6 +18,7 @@ export class LTCache {
 	public KEY_LOGIN_REMEMBERME = 'Login_RememberMe';
 	public RECENT_VIEWS = "RecentViews";
 	
+	_defaults: any = { init: 'init'};
 	_nvpStorage: any;
 	_readyPromise: Promise<any>;
 
@@ -36,6 +37,10 @@ export class LTCache {
 		return this.storage.get(this.STORAGE_KEY).then((value) => {
 			if(value) {
 				this._nvpStorage = value;
+			}else {
+				this.setAll(this._defaults).then((val) => {
+					this._nvpStorage = val;
+				})
 			}
 			
 			if (isDevMode()) {
