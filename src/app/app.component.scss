@@ -18,15 +18,12 @@ ion-split-pane {
     --color-hover: white;
     background-color:green;
     background: var(--background);
-    
   }
- 
 }
 
 .list-md {
   background:none;
 }
-
 
 ion-menu.md ion-content {
   --padding-start: 8px;
@@ -68,7 +65,6 @@ ion-menu {
     --padding-start: 5px;
     --padding-end: 5px;
     
-
     ion-label {
       font-weight: 500;
     }
@@ -87,11 +83,7 @@ ion-menu {
   ion-item.item:hover a {
     color: slategray;
   }
-
 }
-
-
-
 
 ion-menu.ios ion-content {
   --padding-bottom: 20px;
@@ -111,7 +103,6 @@ ion-menu.ios ion-item {
   --padding-end: 16px;
   --min-height: 50px;
 }
-
 
 ion-menu.ios ion-list#labels-list ion-list-header {
   margin-bottom: 8px;
