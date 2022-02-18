@@ -61,24 +61,20 @@ export class AppComponent {
       });
     });
 
-    // 25 minute interval before refreshing the token
+    // 25 minute interval before refreshing the JWT
     const source = interval(25*60000);
     this.jstSubscription = source.subscribe(val => this.refreshJWT());
   }
 
   initializeApp() {
-    // set languages
+    // set language default
     this.translateService.setDefaultLang('en');
 
     return this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-
       /*
        * Listen to a session expired event.  If sent, we must show the relogon page
        */
       this.events.getObservable().subscribe((data) => {
-        //console.log('Event received:', data);
         this.logger.entry(this._className, 'getObservable()');
 
         if (
@@ -89,8 +85,6 @@ export class AppComponent {
         ) {
           this.logger.trace(this._className, 'getObservable()', 'Event: user:sessionExpired');
           this.logger.trace(this._className, 'getObservable()', data.observable);
-          //console.log('Event: user:sessionExpired');
-          //console.log('Event observable: ' + data.observable);
 
           if (environment.development == true) {
             this.presentLoginDevModal(data);
@@ -109,7 +103,9 @@ export class AppComponent {
   async refreshJWT() {
     this.userProvider.getExchangeJWT().subscribe((resp) => {
       this.logger.trace(this._className, "refreshJWT");
-      this.userEmailAddress = resp.email;
+      if (this.userEmailAddress == null || this.userEmailAddress =='') {
+        this.userEmailAddress = resp.email;
+      }
     }, (err) => {
       this.logger.trace(this._className, "refreshJWT", "err");
       window.location.href = environment.loginUrl;
@@ -126,7 +122,7 @@ export class AppComponent {
     this.userProvider.getMyProfile().subscribe((resp) => {
       this.logger.trace(this._className, "getUserDetails");
       this.userDetails = resp;
-      this.userEmailAddress = resp.email;
+      this.userEmailAddress = resp.firstName + " " + resp.lastName;
     }, (err) => {
       this.logger.trace(this._className, "getUserDetails", "err");
     });
@@ -139,7 +135,11 @@ export class AppComponent {
     this.jstSubscription.unsubscribe();
   }
 
-  
+  /**
+   * For development purposes only.  This method shows a dialog that allowes 
+   * the user to acquire a dev JWT
+   * @param data 
+   */
   async presentLoginDevModal(data) {
     const reloadObservable = data.observable;
     console.log('***presentModal***');

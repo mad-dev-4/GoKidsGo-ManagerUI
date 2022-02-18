@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  development: true,
   loginUrl: "https://www.GoKidsGo.dev:7246/",
   venueUrl: "https://www.GoKidsGo.dev:5001/api/",
   identityUrl: "https://www.GoKidsGo.dev:7246/api/",
